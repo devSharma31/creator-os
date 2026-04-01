@@ -297,12 +297,14 @@ const NAV=[
 /* ─── CLAUDE API ────────────────────────────────────────────── */
 async function callClaude(prompt, sys, onChunk) {
   try {
+    const apiKey = import.meta.env.CreatorOS || "";
     const res = await fetch("https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
         "content-type": "application/json",
         "anthropic-version": "2023-06-01",
         "anthropic-dangerous-direct-browser-access": "true",
+        "x-api-key": apiKey,
       },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
