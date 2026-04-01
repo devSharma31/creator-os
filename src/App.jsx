@@ -19,7 +19,7 @@ import {
 } from "recharts";
 
 /* ─── CONFIG — REPLACE THIS ─────────────────────────────────── */
-const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+const GOOGLE_CLIENT_ID = "183861502552-khpjlafupti51u11va5jufc3d5qj27kb.apps.googleusercontent.com";
 const YT_SCOPES = [
   "https://www.googleapis.com/auth/youtube.readonly",
   "https://www.googleapis.com/auth/yt-analytics.readonly",
@@ -1476,7 +1476,7 @@ export default function App() {
 
   // Load Google Identity Services SDK
   useEffect(() => {
-    if (GOOGLE_CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com") return;
+    if (GOOGLE_CLIENT_ID === "183861502552-khpjlafupti51u11va5jufc3d5qj27kb.apps.googleusercontent.com") return;
     const script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";
     script.async = true;
