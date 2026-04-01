@@ -1468,7 +1468,7 @@ function AppShell({ user, ytUser, ytData, ytLoading, ytError, signIn, signOut })
 }
 
 /* Alias for repurpose — fixing the name */
-const ReposePage = ReputsePage => ReputsePage;
+const ReposePage = RepurposePage;
 
 /* ─── ROOT ───────────────────────────────────────────────────── */
 export default function App() {
