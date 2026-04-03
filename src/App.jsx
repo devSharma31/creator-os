@@ -1,5 +1,5 @@
 /**
- * CreatorOS v4.0
+ * CreatorOS v4.1
  * ─────────────────────────────────────────────────────────────
  * SETUP INSTRUCTIONS:
  * 1. Replace YOUR_GOOGLE_CLIENT_ID below with your OAuth Client ID
