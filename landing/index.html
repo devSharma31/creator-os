@@ -1062,7 +1062,7 @@ footer {
     <li><a href="#how">How it works</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="https://creator-os-gray.vercel.app" target="_blank" class="nav-cta">Launch App ⚡</a></li>
+    <li><a href="#" onclick="launchApp(event)" target="_blank" class="nav-cta">Launch App ⚡</a></li>
   </ul>
 </nav>
 
@@ -1083,7 +1083,7 @@ footer {
     </p>
     <div class="hero-actions">
       <a href="#pricing" class="btn-primary">Get CreatorOS — ₹2,499 ⚡</a>
-      <a href="https://creator-os-gray.vercel.app" target="_blank" class="btn-secondary">See it live →</a>
+      <a href="https://creatoros3.gumroad.com/l/creatoros" target="_blank" class="btn-secondary">See it live →</a>
     </div>
     <div class="hero-stats">
       <div class="hero-stat-item">
@@ -1414,7 +1414,7 @@ footer {
         <div class="pricing-feature-item"><div class="pricing-check">✓</div>All future updates — free</div>
         <div class="pricing-feature-item"><div class="pricing-check">✓</div>Works in any browser, any device</div>
       </div>
-      <a href="https://kaivantage.gumroad.com/l/xxdzl" target="_blank" class="btn-buy">
+      <a href="https://creatoros3.gumroad.com/l/creatoros" target="_blank" class="btn-buy">
         Get CreatorOS — ₹2,499 ⚡
       </a>
       <div class="pricing-guarantee">
@@ -1470,7 +1470,7 @@ footer {
         <span style="background:var(--ig);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">smarter, not harder?</span>
       </h2>
       <p class="final-cta-sub">Join creators who've already stopped wasting hours on tasks AI can do in seconds.</p>
-      <a href="https://kaivantage.gumroad.com/l/xxdzl" target="_blank" class="btn-primary" style="font-size:15px;padding:17px 40px">
+      <a href="https://creatoros3.gumroad.com/l/creatoros" target="_blank" class="btn-primary" style="font-size:15px;padding:17px 40px">
         Get CreatorOS — ₹2,499 ⚡
       </a>
       <div style="margin-top:18px;font-size:13px;color:var(--t3)">
@@ -1490,7 +1490,7 @@ footer {
   <div class="footer-links">
     <a href="mailto:support@creatoros.in">Support</a>
     <a href="#">Privacy</a>
-    <a href="https://creator-os-gray.vercel.app" target="_blank">Launch App</a>
+    <a href="#" onclick="launchApp(event)" target="_blank">Launch App</a>
   </div>
 </footer>
 
@@ -1531,5 +1531,115 @@ window.addEventListener('scroll', () => {
     window.scrollY > 50 ? 'rgba(5,6,13,0.95)' : 'rgba(5,6,13,0.7)';
 });
 </script>
+
+  <script>
+  // ── ACCESS GATE ──────────────────────────────
+  // Change this to whatever secret code you want
+  const ACCESS_CODE = "CREATOR@DEV2026";
+  const APP_URL = "https://creator-os-gray.vercel.app";
+
+  function launchApp(e) {
+    e.preventDefault();
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.id = 'access-gate';
+    overlay.style.cssText = `
+      position:fixed;inset:0;z-index:9999;
+      background:rgba(5,6,13,0.95);
+      backdrop-filter:blur(20px);
+      display:flex;align-items:center;justify-content:center;
+    `;
+
+    overlay.innerHTML = `
+      <div style="
+        background:#0f1220;border:1px solid rgba(255,255,255,0.12);
+        border-radius:24px;padding:48px 44px;width:420px;text-align:center;
+        box-shadow:0 40px 100px rgba(0,0,0,0.65);
+      ">
+        <div style="
+          width:54px;height:54px;border-radius:16px;margin:0 auto 20px;
+          background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);
+          display:flex;align-items:center;justify-content:center;
+          font-size:24px;box-shadow:0 8px 28px rgba(225,48,108,0.45);
+        ">⚡</div>
+        <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#f0f0fa;margin-bottom:8px;">
+          Enter Access Code
+        </div>
+        <div style="font-size:13.5px;color:#8888aa;margin-bottom:28px;line-height:1.6;">
+          CreatorOS is currently in early access.<br/>
+          Enter your code from Gumroad to continue.
+        </div>
+        <input
+          id="access-input"
+          type="password"
+          placeholder="Enter your access code"
+          style="
+            width:100%;background:#141720;border:1px solid rgba(255,255,255,0.1);
+            border-radius:11px;color:#f0f0fa;font-size:14px;padding:13px 16px;
+            outline:none;margin-bottom:14px;text-align:center;letter-spacing:3px;
+            font-family:'DM Sans',sans-serif;
+          "
+          onkeydown="if(event.key==='Enter') checkCode()"
+        />
+        <div id="access-error" style="
+          color:#ff6b6b;font-size:12px;margin-bottom:12px;
+          min-height:18px;
+        "></div>
+        <button onclick="checkCode()" style="
+          width:100%;padding:14px;background:#e1306c;color:#fff;
+          border:none;border-radius:11px;font-family:'Syne',sans-serif;
+          font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;
+          box-shadow:0 6px 22px rgba(225,48,108,0.38);margin-bottom:12px;
+          text-transform:uppercase;
+        ">
+          Unlock CreatorOS ⚡
+        </button>
+        <div style="font-size:12px;color:#44445a;cursor:pointer;" onclick="closeGate()">
+          Cancel
+        </div>
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+    setTimeout(() => document.getElementById('access-input')?.focus(), 100);
+  }
+
+  function checkCode() {
+    const input = document.getElementById('access-input');
+    const error = document.getElementById('access-error');
+    const val = input?.value?.trim().toUpperCase();
+
+    if (val === ACCESS_CODE.toUpperCase()) {
+      // Correct — launch app
+      document.getElementById('access-gate')?.remove();
+      window.open(APP_URL, '_blank');
+    } else {
+      // Wrong — shake and show error
+      error.textContent = '❌ Invalid access code. Check your Gumroad email.';
+      input.style.borderColor = '#ff6b6b';
+      input.value = '';
+      setTimeout(() => {
+        error.textContent = '';
+        input.style.borderColor = 'rgba(255,255,255,0.1)';
+      }, 3000);
+    }
+  }
+
+  function closeGate() {
+    document.getElementById('access-gate')?.remove();
+  }
+
+  // Close on overlay click
+  document.addEventListener('click', function(e) {
+    if (e.target.id === 'access-gate') closeGate();
+  });
+
+  // Close on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeGate();
+  });
+</script>
+  
 </body>
 </html>
