@@ -297,56 +297,36 @@ const NAV=[
 /* ─── CLAUDE API ────────────────────────────────────────────── */
 async function callClaude(prompt, sys, onChunk) {
   try {
-    const apiKey = import.meta.env.CreatorOS || "";
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
+    const res = await fetch("/api/claude", {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "anthropic-version": "2023-06-01",
-        "anthropic-dangerous-direct-browser-access": "true",
-        "x-api-key": apiKey,
       },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1500,
-        stream: !!onChunk,
+        stream: false,
         system: sys || "You are CreatorOS, an elite AI assistant for Instagram and YouTube creators. Be specific, creative, actionable. Use clear formatting.",
         messages: [{ role: "user", content: prompt }],
       }),
     });
+
     if (!res.ok) {
       const e = await res.json().catch(() => ({}));
-      return `⚠️ Error ${res.status}: ${e?.error?.message || res.statusText}`;
+      const msg = `⚠️ Error ${res.status}: ${e?.error?.message || res.statusText}`;
+      if (onChunk) onChunk(msg);
+      return msg;
     }
-    if (onChunk) {
-      // Streaming
-      const reader = res.body.getReader();
-      const dec = new TextDecoder();
-      let full = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const lines = dec.decode(value).split("\n");
-        for (const line of lines) {
-          if (!line.startsWith("data:")) continue;
-          const data = line.slice(5).trim();
-          if (data === "[DONE]") continue;
-          try {
-            const j = JSON.parse(data);
-            if (j.type === "content_block_delta" && j.delta?.text) {
-              full += j.delta.text;
-              onChunk(full);
-            }
-          } catch {}
-        }
-      }
-      return full;
-    } else {
-      const d = await res.json();
-      return d?.content?.[0]?.text || "No response returned.";
-    }
+
+    const d = await res.json();
+    const text = d?.content?.[0]?.text || "No response returned.";
+    if (onChunk) onChunk(text);
+    return text;
+
   } catch (e) {
-    return `⚠️ Network error: ${e.message}`;
+    const msg = `⚠️ Network error: ${e.message}`;
+    if (onChunk) onChunk(msg);
+    return msg;
   }
 }
 
