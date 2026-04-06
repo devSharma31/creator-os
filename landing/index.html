@@ -38,28 +38,34 @@ body {
   color: var(--tx);
   font-family: var(--fb);
   overflow-x: hidden;
-  cursor: none;
 }
 
-/* ── CUSTOM CURSOR ── */
-.cursor {
-  width: 12px; height: 12px;
-  background: var(--ig-s);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.15s ease;
-  mix-blend-mode: difference;
+/* ── CUSTOM CURSOR (desktop only) ── */
+@media (pointer: fine) {
+  body { cursor: none; }
+  .btn-primary, .btn-secondary, .btn-buy, .feature-card, .nav-cta { cursor: none; }
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--ig-s);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid rgba(225,48,108,0.5);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.08s ease;
+  }
 }
-.cursor-ring {
-  width: 36px; height: 36px;
-  border: 1.5px solid rgba(225,48,108,0.5);
-  border-radius: 50%;
-  position: fixed;
-  pointer-events: none;
-  z-index: 9998;
-  transition: all 0.08s ease;
+@media (pointer: coarse) {
+  .cursor, .cursor-ring { display: none !important; }
 }
 
 /* ── NOISE OVERLAY ── */
@@ -84,6 +90,7 @@ nav {
   justify-content: space-between;
   background: rgba(5,6,13,0.7);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--bd);
 }
 .nav-logo {
@@ -139,6 +146,58 @@ nav {
 }
 .nav-cta:hover { filter: brightness(1.1) !important; transform: translateY(-1px); }
 
+/* ── MOBILE HAMBURGER ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 102;
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px; height: 2px;
+  background: var(--tx);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+.nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+.nav-hamburger.active span:nth-child(2) { opacity: 0; }
+.nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+/* ── MOBILE NAV OVERLAY ── */
+.mobile-nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: rgba(5,6,13,0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+.mobile-nav-overlay.open { display: flex; }
+.mobile-nav-overlay a {
+  color: var(--tx);
+  text-decoration: none;
+  font-family: var(--fh);
+  font-size: 20px;
+  font-weight: 700;
+  transition: color 0.2s;
+}
+.mobile-nav-overlay a:hover { color: var(--ig-s); }
+.mobile-nav-overlay .nav-cta {
+  padding: 14px 36px;
+  font-size: 13px !important;
+  margin-top: 12px;
+}
+
 /* ── HERO ── */
 .hero {
   min-height: 100vh;
@@ -166,6 +225,7 @@ nav {
     linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 60px 60px;
   mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
 }
 .hero-content {
   position: relative;
@@ -197,7 +257,7 @@ nav {
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
 .hero-title {
   font-family: var(--fh);
-  font-size: clamp(42px, 7vw, 82px);
+  font-size: clamp(36px, 7vw, 82px);
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -2px;
@@ -210,7 +270,7 @@ nav {
   background-clip: text;
 }
 .hero-sub {
-  font-size: clamp(16px, 2vw, 19px);
+  font-size: clamp(15px, 2vw, 19px);
   color: var(--t2);
   line-height: 1.7;
   max-width: 580px;
@@ -242,7 +302,6 @@ nav {
   box-shadow: 0 8px 32px rgba(225,48,108,0.4);
   transition: all 0.25s;
   border: none;
-  cursor: none;
 }
 .btn-primary:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(225,48,108,0.5); }
 .btn-secondary {
@@ -259,7 +318,6 @@ nav {
   font-weight: 600;
   text-decoration: none;
   transition: all 0.25s;
-  cursor: none;
 }
 .btn-secondary:hover { border-color: var(--ig-s); color: var(--ig-s); background: rgba(225,48,108,0.06); }
 .hero-stats {
@@ -269,9 +327,7 @@ nav {
   gap: 40px;
   flex-wrap: wrap;
 }
-.hero-stat-item {
-  text-align: center;
-}
+.hero-stat-item { text-align: center; }
 .hero-stat-num {
   font-family: var(--fh);
   font-size: 28px;
@@ -353,12 +409,16 @@ nav {
   display: flex;
   align-items: center;
   gap: 7px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .preview-url::before { content: '🔒'; font-size: 10px; }
 .preview-body {
   display: grid;
   grid-template-columns: 200px 1fr;
-  height: 420px;
+  min-height: 420px;
 }
 .preview-sidebar {
   background: rgba(14,16,24,0.98);
@@ -418,6 +478,7 @@ nav {
   align-items: center;
   gap: 10px;
   margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 .preview-page-title {
   font-family: var(--fh);
@@ -526,14 +587,14 @@ section { position: relative; z-index: 2; }
 }
 .section-title {
   font-family: var(--fh);
-  font-size: clamp(32px, 4vw, 52px);
+  font-size: clamp(28px, 4vw, 52px);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -1.5px;
   margin-bottom: 18px;
 }
 .section-sub {
-  font-size: 17px;
+  font-size: clamp(15px, 2vw, 17px);
   color: var(--t2);
   line-height: 1.7;
   max-width: 560px;
@@ -589,7 +650,7 @@ section { position: relative; z-index: 2; }
 .features-section { padding: 100px 24px; }
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
   margin-top: 60px;
 }
@@ -601,7 +662,6 @@ section { position: relative; z-index: 2; }
   transition: all 0.3s;
   position: relative;
   overflow: hidden;
-  cursor: none;
 }
 .feature-card::after {
   content: '';
@@ -815,7 +875,7 @@ section { position: relative; z-index: 2; }
 }
 .pricing-amount {
   font-family: var(--fh);
-  font-size: 64px;
+  font-size: clamp(48px, 8vw, 64px);
   font-weight: 800;
   line-height: 1;
   letter-spacing: -2px;
@@ -864,7 +924,7 @@ section { position: relative; z-index: 2; }
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.5px;
-  cursor: none;
+  cursor: pointer;
   text-decoration: none;
   text-align: center;
   box-shadow: 0 8px 32px rgba(225,48,108,0.4);
@@ -924,7 +984,7 @@ section { position: relative; z-index: 2; }
 .india-flag { font-size: 56px; margin-bottom: 20px; }
 .india-title {
   font-family: var(--fh);
-  font-size: 32px;
+  font-size: clamp(24px, 4vw, 32px);
   font-weight: 800;
   margin-bottom: 16px;
   letter-spacing: -0.5px;
@@ -964,7 +1024,7 @@ section { position: relative; z-index: 2; }
 }
 .final-cta-title {
   font-family: var(--fh);
-  font-size: clamp(36px, 5vw, 64px);
+  font-size: clamp(32px, 5vw, 64px);
   font-weight: 800;
   line-height: 1.1;
   letter-spacing: -1.5px;
@@ -972,7 +1032,7 @@ section { position: relative; z-index: 2; }
   position: relative;
 }
 .final-cta-sub {
-  font-size: 17px;
+  font-size: clamp(15px, 2vw, 17px);
   color: var(--t2);
   margin-bottom: 40px;
   position: relative;
@@ -1031,17 +1091,133 @@ footer {
 ::-webkit-scrollbar { width: 3px; }
 ::-webkit-scrollbar-thumb { background: var(--s3); border-radius: 2px; }
 
-/* ── RESPONSIVE ── */
+/* ════════════════════════════════════════════
+   RESPONSIVE BREAKPOINTS
+   ════════════════════════════════════════════ */
+
+/* ── TABLET (769px – 1024px) ── */
+@media (max-width: 1024px) {
+  nav { padding: 16px 32px; }
+  .nav-links { gap: 20px; }
+  .preview-body { grid-template-columns: 180px 1fr; }
+  .steps-wrap { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .steps-wrap::before { display: none; }
+  .time-grid { gap: 40px; }
+  .problem-grid { grid-template-columns: repeat(2, 1fr); }
+  .problem-card:last-child { grid-column: 1 / -1; max-width: 400px; margin: 0 auto; }
+}
+
+/* ── MOBILE LANDSCAPE & SMALL TABLET (481px – 768px) ── */
 @media (max-width: 768px) {
-  nav { padding: 16px 20px; }
+  nav { padding: 14px 20px; }
   .nav-links { display: none; }
-  .problem-grid, .steps-wrap, .faq-grid { grid-template-columns: 1fr; }
-  .time-grid { grid-template-columns: 1fr; }
+  .nav-hamburger { display: flex; }
+
+  .hero { padding: 100px 20px 60px; min-height: auto; }
+  .hero-title { letter-spacing: -1px; }
+  .hero-sub { margin-bottom: 36px; }
+  .hero-actions { gap: 12px; }
+  .btn-primary, .btn-secondary { padding: 14px 24px; font-size: 13px; width: 100%; justify-content: center; }
+  .hero-stats { gap: 24px; }
+  .hero-stat-divider { display: none; }
+  .hero-stat-num { font-size: 24px; }
+
+  .preview-section { padding: 0 16px 80px; }
+  .preview-frame { border-radius: 14px; }
   .preview-body { grid-template-columns: 1fr; }
   .preview-sidebar { display: none; }
-  .preview-frame { height: 280px; overflow: hidden; }
-  .hero-stat-divider { display: none; }
+  .preview-bar { padding: 10px 14px; }
+  .preview-dots span { width: 9px; height: 9px; }
+  .preview-main { padding: 16px; }
+  .preview-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .preview-stat { padding: 10px; }
+  .preview-stat-v { font-size: 16px; }
+  .preview-stat-l { font-size: 7px; letter-spacing: 1px; }
+  .preview-cards { grid-template-columns: 1fr; }
+
+  .problem-section { padding: 80px 20px; }
+  .problem-grid { grid-template-columns: 1fr; }
+  .problem-card:last-child { max-width: none; }
+
+  .features-section { padding: 80px 20px; }
+  .features-grid { grid-template-columns: 1fr; }
+
+  .how-section { padding: 80px 20px; }
+  .steps-wrap { grid-template-columns: 1fr 1fr; gap: 24px; }
+  .steps-wrap::before { display: none; }
+  .step-num { width: 60px; height: 60px; font-size: 18px; }
+
+  .time-section { padding: 80px 20px; }
+  .time-grid { grid-template-columns: 1fr; gap: 32px; }
+  .time-row { padding: 14px 16px; gap: 12px; }
+  .time-task { font-size: 13px; }
+  .time-big { font-size: 56px; }
+
+  .india-section { padding: 80px 20px; }
   .india-card { padding: 40px 24px; }
+  .india-flag { font-size: 42px; }
+  .india-tags { gap: 8px; }
+  .india-tag { font-size: 12px; padding: 6px 12px; }
+
+  .pricing-section { padding: 80px 20px; }
+  .pricing-card { padding: 36px 28px; }
+
+  .faq-section { padding: 80px 20px; }
+  .faq-grid { grid-template-columns: 1fr; }
+
+  .final-cta { padding: 80px 20px; }
+
+  footer {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 32px 20px;
+  }
+}
+
+/* ── SMALL MOBILE (≤480px) ── */
+@media (max-width: 480px) {
+  .hero { padding: 90px 16px 48px; }
+  .hero-badge { font-size: 10px; padding: 5px 12px; margin-bottom: 24px; }
+  .hero-title { letter-spacing: -1px; margin-bottom: 18px; }
+  .hero-sub { font-size: 14px; margin-bottom: 28px; }
+  .hero-stats { gap: 16px; }
+  .hero-stat-num { font-size: 22px; }
+  .hero-stat-label { font-size: 10px; }
+
+  .preview-stats { grid-template-columns: 1fr; }
+  .preview-title-row { margin-bottom: 14px; }
+  .preview-page-title { font-size: 15px; }
+
+  .section-title { letter-spacing: -1px; }
+
+  .time-row { grid-template-columns: 1fr; gap: 6px; text-align: center; }
+  .time-task { font-size: 13px; font-weight: 600; }
+  .time-visual { padding: 28px 20px; }
+  .time-big { font-size: 48px; }
+
+  .steps-wrap { grid-template-columns: 1fr; }
+
+  .pricing-card { padding: 32px 20px; border-radius: 18px; }
+  .pricing-amount { letter-spacing: -1px; }
+  .pricing-feature-item { font-size: 13px; gap: 10px; }
+
+  .india-card { padding: 32px 18px; border-radius: 18px; }
+  .india-title { font-size: 22px; }
+  .india-desc { font-size: 13.5px; }
+
+  .faq-item { padding: 20px; }
+  .faq-q { font-size: 14px; }
+  .faq-a { font-size: 13px; }
+
+  .btn-primary, .btn-secondary { padding: 13px 20px; }
+}
+
+/* ── LARGE DESKTOP (≥1400px) ── */
+@media (min-width: 1400px) {
+  .container { max-width: 1200px; }
+  nav { padding: 20px 64px; }
 }
 </style>
 </head>
@@ -1062,9 +1238,21 @@ footer {
     <li><a href="#how">How it works</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="#" onclick="launchApp(event)" target="_blank" class="nav-cta">Launch App ⚡</a></li>
+    <li><a href="#" onclick="launchApp(event)" class="nav-cta">Launch App ⚡</a></li>
   </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav-overlay" id="mobileNav">
+  <a href="#features" onclick="closeMobileNav()">Features</a>
+  <a href="#how" onclick="closeMobileNav()">How it works</a>
+  <a href="#pricing" onclick="closeMobileNav()">Pricing</a>
+  <a href="#faq" onclick="closeMobileNav()">FAQ</a>
+  <a href="#" onclick="closeMobileNav();launchApp(event)" class="nav-cta">Launch App ⚡</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -1490,39 +1678,57 @@ footer {
   <div class="footer-links">
     <a href="mailto:support@creatoros.in">Support</a>
     <a href="#">Privacy</a>
-    <a href="#" onclick="launchApp(event)" target="_blank">Launch App</a>
+    <a href="#" onclick="launchApp(event)">Launch App</a>
   </div>
 </footer>
 
 <script>
-// Custom cursor
+// Custom cursor (desktop only)
+const isTouchDevice = window.matchMedia('(pointer: coarse)').matches;
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => {
-  mx = e.clientX; my = e.clientY;
-  cursor.style.left = mx - 6 + 'px';
-  cursor.style.top = my - 6 + 'px';
-});
-function animateRing() {
-  rx += (mx - rx - 18) * 0.12;
-  ry += (my - ry - 18) * 0.12;
-  ring.style.left = rx + 'px';
-  ring.style.top = ry + 'px';
-  requestAnimationFrame(animateRing);
+
+if (!isTouchDevice) {
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 6 + 'px';
+    cursor.style.top = my - 6 + 'px';
+  });
+  function animateRing() {
+    rx += (mx - rx - 18) * 0.12;
+    ry += (my - ry - 18) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2.5)');
+    el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+  });
 }
-animateRing();
-document.querySelectorAll('a, button').forEach(el => {
-  el.addEventListener('mouseenter', () => cursor.style.transform = 'scale(2.5)');
-  el.addEventListener('mouseleave', () => cursor.style.transform = 'scale(1)');
+
+// Mobile nav
+const hamburger = document.getElementById('hamburger');
+const mobileNav = document.getElementById('mobileNav');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  mobileNav.classList.toggle('open');
+  document.body.style.overflow = mobileNav.classList.contains('open') ? 'hidden' : '';
 });
+function closeMobileNav() {
+  hamburger.classList.remove('active');
+  mobileNav.classList.remove('open');
+  document.body.style.overflow = '';
+}
 
 // Scroll reveal
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (e.isIntersecting) { e.target.classList.add('visible'); }
   });
-}, { threshold: 0.12 });
+}, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 // Nav scroll effect
@@ -1532,114 +1738,102 @@ window.addEventListener('scroll', () => {
 });
 </script>
 
-  <script>
-  // ── ACCESS GATE ──────────────────────────────
-  // Change this to whatever secret code you want
-  const ACCESS_CODE = "CREATOR@DEV2026";
-  const APP_URL = "https://creator-os-gray.vercel.app";
+<script>
+// ── ACCESS GATE ──
+const ACCESS_CODE = "CREATOR@DEV2026";
+const APP_URL = "https://creator-os-gray.vercel.app";
 
-  function launchApp(e) {
-    e.preventDefault();
-
-    // Create overlay
-    const overlay = document.createElement('div');
-    overlay.id = 'access-gate';
-    overlay.style.cssText = `
-      position:fixed;inset:0;z-index:9999;
-      background:rgba(5,6,13,0.95);
-      backdrop-filter:blur(20px);
-      display:flex;align-items:center;justify-content:center;
-    `;
-
-    overlay.innerHTML = `
+function launchApp(e) {
+  e.preventDefault();
+  const overlay = document.createElement('div');
+  overlay.id = 'access-gate';
+  overlay.style.cssText = `
+    position:fixed;inset:0;z-index:9999;
+    background:rgba(5,6,13,0.95);
+    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+    display:flex;align-items:center;justify-content:center;
+    padding:20px;
+  `;
+  overlay.innerHTML = `
+    <div style="
+      background:#0f1220;border:1px solid rgba(255,255,255,0.12);
+      border-radius:24px;padding:40px 32px;width:100%;max-width:420px;text-align:center;
+      box-shadow:0 40px 100px rgba(0,0,0,0.65);
+    ">
       <div style="
-        background:#0f1220;border:1px solid rgba(255,255,255,0.12);
-        border-radius:24px;padding:48px 44px;width:420px;text-align:center;
-        box-shadow:0 40px 100px rgba(0,0,0,0.65);
-      ">
-        <div style="
-          width:54px;height:54px;border-radius:16px;margin:0 auto 20px;
-          background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);
-          display:flex;align-items:center;justify-content:center;
-          font-size:24px;box-shadow:0 8px 28px rgba(225,48,108,0.45);
-        ">⚡</div>
-        <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#f0f0fa;margin-bottom:8px;">
-          Enter Access Code
-        </div>
-        <div style="font-size:13.5px;color:#8888aa;margin-bottom:28px;line-height:1.6;">
-          CreatorOS is currently in early access.<br/>
-          Enter your code from Gumroad to continue.
-        </div>
-        <input
-          id="access-input"
-          type="password"
-          placeholder="Enter your access code"
-          style="
-            width:100%;background:#141720;border:1px solid rgba(255,255,255,0.1);
-            border-radius:11px;color:#f0f0fa;font-size:14px;padding:13px 16px;
-            outline:none;margin-bottom:14px;text-align:center;letter-spacing:3px;
-            font-family:'DM Sans',sans-serif;
-          "
-          onkeydown="if(event.key==='Enter') checkCode()"
-        />
-        <div id="access-error" style="
-          color:#ff6b6b;font-size:12px;margin-bottom:12px;
-          min-height:18px;
-        "></div>
-        <button onclick="checkCode()" style="
-          width:100%;padding:14px;background:#e1306c;color:#fff;
-          border:none;border-radius:11px;font-family:'Syne',sans-serif;
-          font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;
-          box-shadow:0 6px 22px rgba(225,48,108,0.38);margin-bottom:12px;
-          text-transform:uppercase;
-        ">
-          Unlock CreatorOS ⚡
-        </button>
-        <div style="font-size:12px;color:#44445a;cursor:pointer;" onclick="closeGate()">
-          Cancel
-        </div>
+        width:54px;height:54px;border-radius:16px;margin:0 auto 20px;
+        background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);
+        display:flex;align-items:center;justify-content:center;
+        font-size:24px;box-shadow:0 8px 28px rgba(225,48,108,0.45);
+      ">⚡</div>
+      <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#f0f0fa;margin-bottom:8px;">
+        Enter Access Code
       </div>
-    `;
+      <div style="font-size:13.5px;color:#8888aa;margin-bottom:28px;line-height:1.6;">
+        CreatorOS is currently in early access.<br/>
+        Enter your code from Gumroad to continue.
+      </div>
+      <input
+        id="access-input"
+        type="password"
+        placeholder="Enter your access code"
+        style="
+          width:100%;background:#141720;border:1px solid rgba(255,255,255,0.1);
+          border-radius:11px;color:#f0f0fa;font-size:16px;padding:13px 16px;
+          outline:none;margin-bottom:14px;text-align:center;letter-spacing:3px;
+          font-family:'DM Sans',sans-serif;-webkit-appearance:none;
+        "
+        onkeydown="if(event.key==='Enter') checkCode()"
+      />
+      <div id="access-error" style="
+        color:#ff6b6b;font-size:12px;margin-bottom:12px;min-height:18px;
+      "></div>
+      <button onclick="checkCode()" style="
+        width:100%;padding:14px;background:#e1306c;color:#fff;
+        border:none;border-radius:11px;font-family:'Syne',sans-serif;
+        font-size:13px;font-weight:700;letter-spacing:1px;cursor:pointer;
+        box-shadow:0 6px 22px rgba(225,48,108,0.38);margin-bottom:12px;
+        text-transform:uppercase;-webkit-appearance:none;
+      ">
+        Unlock CreatorOS ⚡
+      </button>
+      <div style="font-size:12px;color:#44445a;cursor:pointer;padding:8px;" onclick="closeGate()">
+        Cancel
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+  setTimeout(() => document.getElementById('access-input')?.focus(), 100);
+}
 
-    document.body.appendChild(overlay);
-    setTimeout(() => document.getElementById('access-input')?.focus(), 100);
-  }
-
-  function checkCode() {
-    const input = document.getElementById('access-input');
-    const error = document.getElementById('access-error');
-    const val = input?.value?.trim().toUpperCase();
-
-    if (val === ACCESS_CODE.toUpperCase()) {
-      // Correct — launch app
-      document.getElementById('access-gate')?.remove();
-      window.open(APP_URL, '_blank');
-    } else {
-      // Wrong — shake and show error
-      error.textContent = '❌ Invalid access code. Check your Gumroad email.';
-      input.style.borderColor = '#ff6b6b';
-      input.value = '';
-      setTimeout(() => {
-        error.textContent = '';
-        input.style.borderColor = 'rgba(255,255,255,0.1)';
-      }, 3000);
-    }
-  }
-
-  function closeGate() {
+function checkCode() {
+  const input = document.getElementById('access-input');
+  const error = document.getElementById('access-error');
+  const val = input?.value?.trim().toUpperCase();
+  if (val === ACCESS_CODE.toUpperCase()) {
     document.getElementById('access-gate')?.remove();
+    window.open(APP_URL, '_blank');
+  } else {
+    error.textContent = '❌ Invalid access code. Check your Gumroad email.';
+    input.style.borderColor = '#ff6b6b';
+    input.value = '';
+    setTimeout(() => {
+      error.textContent = '';
+      input.style.borderColor = 'rgba(255,255,255,0.1)';
+    }, 3000);
   }
+}
 
-  // Close on overlay click
-  document.addEventListener('click', function(e) {
-    if (e.target.id === 'access-gate') closeGate();
-  });
-
-  // Close on Escape key
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeGate();
-  });
+function closeGate() {
+  document.getElementById('access-gate')?.remove();
+}
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'access-gate') closeGate();
+});
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeGate();
+});
 </script>
-  
+
 </body>
 </html>
