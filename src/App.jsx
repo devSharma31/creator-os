@@ -1,5 +1,5 @@
 /**
- * CreatorOS v4.1
+ * CreatorOS v4.2 — Fully Responsive
  * ─────────────────────────────────────────────────────────────
  * SETUP INSTRUCTIONS:
  * 1. Replace YOUR_GOOGLE_CLIENT_ID below with your OAuth Client ID
@@ -46,12 +46,12 @@ const S = `
 body{background:var(--bg);color:var(--tx);font-family:var(--fb);overflow:hidden;height:100vh}
 
 /* AUTH */
-.auth-bg{height:100vh;display:flex;align-items:center;justify-content:center;
+.auth-bg{height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;
   background:radial-gradient(ellipse 90% 60% at 50% -5%,rgba(188,24,136,.22),transparent),
   radial-gradient(ellipse 55% 45% at 88% 88%,rgba(240,148,51,.14),transparent),
   radial-gradient(ellipse 55% 55% at 12% 75%,rgba(59,130,246,.1),transparent),var(--bg)}
-.auth-card{width:440px;padding:48px 44px;text-align:center;
-  background:rgba(14,16,24,.92);backdrop-filter:blur(28px);
+.auth-card{width:100%;max-width:440px;padding:48px 44px;text-align:center;
+  background:rgba(14,16,24,.92);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
   border:1px solid var(--bd2);border-radius:28px;
   box-shadow:0 40px 100px rgba(0,0,0,.65)}
 .auth-gem{width:56px;height:56px;border-radius:17px;margin:0 auto 22px;font-size:25px;
@@ -64,7 +64,7 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);overflow:hidden;
 .s-btn{display:flex;align-items:center;gap:13px;width:100%;padding:14px 20px;margin-bottom:11px;
   background:var(--s2);border:1px solid var(--bd2);border-radius:13px;
   color:var(--tx);font-family:var(--fb);font-size:14px;font-weight:500;
-  cursor:pointer;transition:all .2s}
+  cursor:pointer;transition:all .2s;-webkit-appearance:none}
 .s-btn:hover{border-color:var(--igs);background:var(--s3);transform:translateY(-1px)}
 .s-btn .si{font-size:20px;width:26px;text-align:center}
 .yt-btn{background:rgba(255,43,43,.1);border-color:rgba(255,43,43,.25);color:var(--yt)}
@@ -100,8 +100,8 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);overflow:hidden;
 .skip:hover{color:var(--t2)}
 
 /* APP SHELL */
-.app{display:flex;height:100vh;overflow:hidden}
-.sidebar{width:236px;min-width:236px;background:rgba(14,16,24,.98);border-right:1px solid var(--bd);display:flex;flex-direction:column}
+.app{display:flex;height:100vh;overflow:hidden;position:relative}
+.sidebar{width:236px;min-width:236px;background:rgba(14,16,24,.98);border-right:1px solid var(--bd);display:flex;flex-direction:column;z-index:50;transition:transform .3s cubic-bezier(.16,1,.3,1)}
 .logo-area{padding:22px 20px 16px;border-bottom:1px solid var(--bd)}
 .logo-row{display:flex;align-items:center;gap:11px}
 .logo-gem{width:36px;height:36px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;
@@ -129,10 +129,33 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);overflow:hidden;
 .pp.yt{background:rgba(255,43,43,.12);color:var(--yt)}
 .pp.ig{background:rgba(225,48,108,.15);color:var(--igs)}
 
+/* MOBILE SIDEBAR */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(5,6,13,.7);z-index:40;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
+.sidebar-overlay.open{display:block}
+
+/* HAMBURGER */
+.hamburger{display:none;position:fixed;top:14px;left:14px;z-index:60;
+  background:rgba(14,16,24,.95);border:1px solid var(--bd2);border-radius:11px;
+  padding:10px;cursor:pointer;flex-direction:column;gap:4px;
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.hamburger span{display:block;width:18px;height:2px;background:var(--tx);border-radius:2px;transition:all .3s}
+.hamburger.active span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+
+/* MOBILE TOP BAR */
+.mobile-topbar{display:none;position:fixed;top:0;left:0;right:0;z-index:35;
+  padding:12px 20px 12px 56px;background:rgba(7,8,15,.95);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--bd);
+  font-family:var(--fh);font-size:15px;font-weight:700;
+  display:none;align-items:center;gap:9px}
+.mobile-topbar .logo-gem{width:28px;height:28px;font-size:13px;border-radius:8px}
+
 /* MAIN */
 .main{flex:1;overflow-y:auto;background:var(--bg);padding:32px 36px}
 .ph{margin-bottom:28px}
-.ph-title{font-family:var(--fh);font-size:25px;font-weight:800;display:flex;align-items:center;gap:11px;letter-spacing:-.4px}
+.ph-title{font-family:var(--fh);font-size:25px;font-weight:800;display:flex;align-items:center;gap:11px;letter-spacing:-.4px;flex-wrap:wrap}
 .ph-sub{color:var(--t2);font-size:13.5px;margin-top:7px;line-height:1.55}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:var(--r);padding:23px;margin-bottom:17px;backdrop-filter:blur(6px)}
 .ct{font-family:var(--fh);font-size:10px;font-weight:700;text-transform:uppercase;
@@ -140,14 +163,14 @@ body{background:var(--bg);color:var(--tx);font-family:var(--fb);overflow:hidden;
 .ct .d{width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,#f09433,#bc1888);flex-shrink:0}
 .lbl{display:block;font-size:11px;color:var(--t2);margin-bottom:5px;font-weight:600;letter-spacing:.5px;text-transform:uppercase}
 input,textarea,select{width:100%;background:var(--s2);border:1px solid var(--bd);border-radius:11px;
-  color:var(--tx);font-family:var(--fb);font-size:13px;padding:10px 14px;
-  outline:none;transition:border-color .2s;margin-bottom:15px}
+  color:var(--tx);font-family:var(--fb);font-size:16px;padding:10px 14px;
+  outline:none;transition:border-color .2s;margin-bottom:15px;-webkit-appearance:none}
 input:focus,textarea:focus,select:focus{border-color:var(--igs)}
 textarea{resize:vertical;min-height:82px}
 select option{background:var(--s2)}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10.5px 24px;border-radius:11px;
   border:none;cursor:pointer;font-family:var(--fh);font-size:11px;font-weight:700;
-  letter-spacing:1px;text-transform:uppercase;transition:all .2s}
+  letter-spacing:1px;text-transform:uppercase;transition:all .2s;-webkit-appearance:none}
 .btn-ig{background:var(--igs);color:#fff;box-shadow:0 6px 22px rgba(225,48,108,.38)}
 .btn-ig:hover{filter:brightness(1.1);transform:translateY(-1px)}
 .btn-ig:disabled{opacity:.32;cursor:not-allowed;transform:none;box-shadow:none}
@@ -160,7 +183,7 @@ select option{background:var(--s2)}
 
 /* OUTPUT */
 .out{background:var(--s2);border:1px solid var(--bd);border-radius:11px;
-  padding:17px;font-size:13.5px;line-height:1.88;color:var(--tx);white-space:pre-wrap;min-height:60px}
+  padding:17px;font-size:13.5px;line-height:1.88;color:var(--tx);white-space:pre-wrap;min-height:60px;word-break:break-word}
 .out.empty{color:var(--t3);font-style:italic}
 .out.err{color:#ff8080;background:rgba(255,43,43,.06);border-color:rgba(255,43,43,.25)}
 .out.streaming{border-color:rgba(225,48,108,.3)}
@@ -182,9 +205,10 @@ select option{background:var(--s2)}
 .s-good{color:var(--gr)}
 
 /* TABLE */
-.tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.tbl-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tbl{width:100%;border-collapse:collapse;font-size:12.5px;min-width:500px}
 .tbl th{padding:9px 14px;text-align:left;font-size:9px;text-transform:uppercase;
-  letter-spacing:1.5px;color:var(--t3);border-bottom:1px solid var(--bd);font-family:var(--fh)}
+  letter-spacing:1.5px;color:var(--t3);border-bottom:1px solid var(--bd);font-family:var(--fh);white-space:nowrap}
 .tbl td{padding:12px 14px;border-bottom:1px solid var(--bd)}
 .tbl tr:last-child td{border-bottom:none}
 .tbl tr:hover td{background:rgba(255,255,255,.02)}
@@ -227,16 +251,17 @@ select option{background:var(--s2)}
 .yt-channel-card{
   display:flex;align-items:center;gap:16px;padding:20px;
   background:rgba(255,43,43,.06);border:1px solid rgba(255,43,43,.2);
-  border-radius:14px;margin-bottom:20px;
+  border-radius:14px;margin-bottom:20px;flex-wrap:wrap;
 }
 .yt-thumb{width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0}
 .yt-thumb-placeholder{width:56px;height:56px;border-radius:50%;background:var(--yt);
   display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
-.yt-channel-info{flex:1}
+.yt-channel-info{flex:1;min-width:150px}
 .yt-channel-name{font-family:var(--fh);font-size:17px;font-weight:700}
 .yt-channel-handle{font-size:12px;color:var(--t2);margin-top:3px}
 .yt-live-badge{font-size:10px;padding:3px 9px;background:rgba(255,43,43,.15);
   color:var(--yt);border-radius:7px;font-weight:700;font-family:var(--fh);letter-spacing:.5px}
+.video-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
 .video-thumb{background:var(--s3);border-radius:9px;overflow:hidden;cursor:pointer;
   transition:transform .2s;border:1px solid var(--bd)}
 .video-thumb:hover{transform:scale(1.02)}
@@ -255,11 +280,11 @@ select option{background:var(--s2)}
 .section-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
 .stab{padding:6px 14px;border-radius:9px;border:1px solid var(--bd);background:var(--s2);
   color:var(--t2);font-family:var(--fh);font-size:10px;font-weight:700;letter-spacing:.8px;
-  cursor:pointer;transition:all .2s;text-transform:uppercase}
+  cursor:pointer;transition:all .2s;text-transform:uppercase;-webkit-appearance:none}
 .stab.on{background:rgba(225,48,108,.15);color:var(--igs);border-color:var(--igs)}
 
 /* MISC */
-.rb{display:flex;align-items:center;justify-content:space-between}
+.rb{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 .row{display:flex;align-items:center;gap:10px}
 .mt{margin-top:15px}.mt8{margin-top:9px}
 .empty{text-align:center;padding:42px;color:var(--t3);font-size:13px}
@@ -271,6 +296,92 @@ select option{background:var(--s2)}
 @keyframes fadeUp{from{opacity:0;transform:translateY(11px)}to{opacity:1;transform:none}}
 ::-webkit-scrollbar{width:3px}
 ::-webkit-scrollbar-thumb{background:var(--s3);border-radius:2px}
+
+/* ════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════ */
+
+/* TABLET */
+@media(max-width:1024px){
+  .g4{grid-template-columns:repeat(2,1fr)}
+  .video-grid{grid-template-columns:repeat(2,1fr)}
+  .main{padding:28px 24px}
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  body{overflow:auto;height:auto}
+  .app{flex-direction:column;height:auto;min-height:100vh;overflow:visible}
+
+  /* Sidebar becomes a slide-out drawer */
+  .sidebar{position:fixed;top:0;left:0;bottom:0;width:260px;min-width:260px;
+    transform:translateX(-100%);z-index:50}
+  .sidebar.open{transform:translateX(0)}
+  .sidebar-overlay.open{display:block}
+
+  /* Hamburger visible */
+  .hamburger{display:flex}
+
+  /* Mobile top bar */
+  .mobile-topbar{display:flex}
+
+  /* Main content */
+  .main{padding:68px 16px 24px;overflow:visible;flex:1}
+
+  /* Stack all grids */
+  .g2,.g3,.g4{grid-template-columns:1fr}
+
+  /* Stats row: 2 columns on mobile */
+  .g4{grid-template-columns:1fr 1fr}
+  .g3{grid-template-columns:1fr 1fr}
+
+  .stat{padding:14px 16px}
+  .s-val{font-size:24px}
+
+  .card{padding:18px;border-radius:12px}
+
+  .ph-title{font-size:20px;gap:8px}
+  .ph-sub{font-size:12.5px}
+
+  /* Auth card */
+  .auth-card{padding:36px 24px;border-radius:22px}
+  .auth-title{font-size:24px}
+
+  /* Calendar: horizontal scroll */
+  .cal-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -18px;padding:0 18px}
+  .cal-scroll .cal-grid{min-width:500px}
+  .cal-cell{min-height:60px;padding:6px}
+
+  /* Video grid */
+  .video-grid{grid-template-columns:1fr 1fr}
+
+  /* Channel card */
+  .yt-channel-card{flex-direction:column;align-items:flex-start;gap:12px;padding:16px}
+  .yt-channel-card > div:last-child{flex-direction:row;width:100%;justify-content:space-between}
+
+  /* Niche chips */
+  .nc{padding:6px 12px;font-size:11.5px}
+
+  /* Buttons */
+  .btn{padding:12px 20px;font-size:10px;width:100%;justify-content:center}
+  .btn-sm{width:auto;padding:7px 14px}
+
+  /* Platform row hide on mobile sidebar closed */
+  .plat-row{padding:12px 16px}
+}
+
+/* SMALL MOBILE */
+@media(max-width:480px){
+  .main{padding:64px 12px 20px}
+  .g3,.g4{grid-template-columns:1fr}
+  .hero-stat-num{font-size:22px}
+  .s-val{font-size:22px}
+  .auth-card{padding:28px 18px;border-radius:18px}
+  .auth-title{font-size:22px}
+  .auth-gem{width:48px;height:48px;font-size:22px}
+  .video-grid{grid-template-columns:1fr}
+  .cal-cell{min-height:50px}
+}
 `;
 
 /* ─── CONSTANTS ─────────────────────────────────────────────── */
@@ -299,9 +410,7 @@ async function callClaude(prompt, sys, onChunk) {
   try {
     const res = await fetch("/api/claude", {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: { "content-type": "application/json" },
       body: JSON.stringify({
         model: "claude-sonnet-4-20250514",
         max_tokens: 1500,
@@ -310,19 +419,16 @@ async function callClaude(prompt, sys, onChunk) {
         messages: [{ role: "user", content: prompt }],
       }),
     });
-
     if (!res.ok) {
       const e = await res.json().catch(() => ({}));
       const msg = `⚠️ Error ${res.status}: ${e?.error?.message || res.statusText}`;
       if (onChunk) onChunk(msg);
       return msg;
     }
-
     const d = await res.json();
     const text = d?.content?.[0]?.text || "No response returned.";
     if (onChunk) onChunk(text);
     return text;
-
   } catch (e) {
     const msg = `⚠️ Network error: ${e.message}`;
     if (onChunk) onChunk(msg);
@@ -351,10 +457,7 @@ function useYouTube() {
 
   const signIn = useCallback(async () => {
     return new Promise((resolve, reject) => {
-      if (!window.google) {
-        reject(new Error("Google Identity Services not loaded. Check your Client ID setup."));
-        return;
-      }
+      if (!window.google) { reject(new Error("Google Identity Services not loaded.")); return; }
       const client = window.google.accounts.oauth2.initTokenClient({
         client_id: GOOGLE_CLIENT_ID,
         scope: YT_SCOPES,
@@ -371,90 +474,41 @@ function useYouTube() {
   const fetchYouTubeData = async (token, resolve, reject) => {
     setYtLoading(true); setYtError(null);
     try {
-      // Channel info
-      const chRes = await fetch(
-        "https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,brandingSettings&mine=true",
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const chRes = await fetch("https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics,brandingSettings&mine=true", { headers: { Authorization: `Bearer ${token}` } });
       const chData = await chRes.json();
       if (!chData.items?.length) throw new Error("No YouTube channel found for this account.");
       const ch = chData.items[0];
-
-      // Recent videos
-      const vidRes = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${ch.id}&maxResults=12&order=date&type=video`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const vidRes = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${ch.id}&maxResults=12&order=date&type=video`, { headers: { Authorization: `Bearer ${token}` } });
       const vidData = await vidRes.json();
-
-      // Video stats
       let videos = [];
       if (vidData.items?.length) {
         const ids = vidData.items.map(v => v.id.videoId).join(",");
-        const statsRes = await fetch(
-          `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${ids}`,
-          { headers: { Authorization: `Bearer ${token}` } }
-        );
+        const statsRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${ids}`, { headers: { Authorization: `Bearer ${token}` } });
         const statsData = await statsRes.json();
         videos = vidData.items.map(v => {
           const stat = statsData.items?.find(s => s.id === v.id.videoId);
-          return {
-            id: v.id.videoId,
-            title: v.snippet.title,
-            thumb: v.snippet.thumbnails?.medium?.url,
-            publishedAt: v.snippet.publishedAt,
-            views: Number(stat?.statistics?.viewCount || 0),
-            likes: Number(stat?.statistics?.likeCount || 0),
-            comments: Number(stat?.statistics?.commentCount || 0),
-            duration: stat?.contentDetails?.duration || "",
-          };
+          return { id: v.id.videoId, title: v.snippet.title, thumb: v.snippet.thumbnails?.medium?.url, publishedAt: v.snippet.publishedAt, views: Number(stat?.statistics?.viewCount || 0), likes: Number(stat?.statistics?.likeCount || 0), comments: Number(stat?.statistics?.commentCount || 0), duration: stat?.contentDetails?.duration || "" };
         });
       }
-
       const stats = ch.statistics;
       const snippet = ch.snippet;
-
-      const channelInfo = {
-        id: ch.id,
-        name: snippet.title,
-        handle: snippet.customUrl || `@${snippet.title}`,
-        description: snippet.description,
-        thumbnail: snippet.thumbnails?.medium?.url,
-        subscribers: Number(stats.subscriberCount || 0),
-        totalViews: Number(stats.viewCount || 0),
-        videoCount: Number(stats.videoCount || 0),
-        publishedAt: snippet.publishedAt,
-      };
-
-      setYtUser(channelInfo);
-      setYtData({ channel: channelInfo, videos });
+      const channelInfo = { id: ch.id, name: snippet.title, handle: snippet.customUrl || `@${snippet.title}`, description: snippet.description, thumbnail: snippet.thumbnails?.medium?.url, subscribers: Number(stats.subscriberCount || 0), totalViews: Number(stats.viewCount || 0), videoCount: Number(stats.videoCount || 0), publishedAt: snippet.publishedAt };
+      setYtUser(channelInfo); setYtData({ channel: channelInfo, videos });
       setYtLoading(false);
       if (resolve) resolve({ channel: channelInfo, videos });
-    } catch (e) {
-      setYtError(e.message);
-      setYtLoading(false);
-      if (reject) reject(e);
-    }
+    } catch (e) { setYtError(e.message); setYtLoading(false); if (reject) reject(e); }
   };
 
   const signOut = useCallback(() => {
-    if (tokenRef.current && window.google) {
-      window.google.accounts.oauth2.revoke(tokenRef.current);
-    }
-    tokenRef.current = null;
-    setYtUser(null);
-    setYtData(null);
+    if (tokenRef.current && window.google) window.google.accounts.oauth2.revoke(tokenRef.current);
+    tokenRef.current = null; setYtUser(null); setYtData(null);
   }, []);
 
   return { ytUser, ytData, ytLoading, ytError, signIn, signOut };
 }
 
 /* ─── UTILS ─────────────────────────────────────────────────── */
-const fmt = n => {
-  if (n >= 1000000) return `${(n/1000000).toFixed(1)}M`;
-  if (n >= 1000) return `${(n/1000).toFixed(1)}K`;
-  return String(n);
-};
+const fmt = n => { if (n >= 1000000) return `${(n/1000000).toFixed(1)}M`; if (n >= 1000) return `${(n/1000).toFixed(1)}K`; return String(n); };
 const fmtDate = s => new Date(s).toLocaleDateString("en-IN", { day:"numeric", month:"short", year:"numeric" });
 
 /* ─── AUTH SCREEN ───────────────────────────────────────────── */
@@ -466,29 +520,14 @@ function AuthScreen({ onYouTube, onSkip }) {
       <div className="auth-card fade">
         <div className="auth-gem">⚡</div>
         <div className="auth-title">CreatorOS</div>
-        <div className="auth-sub">
-          The all-in-one AI studio for serious<br />
-          Instagram & YouTube creators
-        </div>
+        <div className="auth-sub">The all-in-one AI studio for serious<br />Instagram & YouTube creators</div>
         <div className="auth-div">connect your channel</div>
-        <button
-          className="s-btn yt-btn"
-          disabled={loading}
-          onClick={async () => { setLoading(true); try { await onYouTube(); } catch(e) { alert("YouTube sign-in failed: " + e.message); setLoading(false); } }}
-        >
-          {loading
-            ? <><span className="spin si">◌</span><span>Connecting YouTube...</span></>
-            : <><span className="si">▶️</span><span>Connect with YouTube</span></>
-          }
+        <button className="s-btn yt-btn" disabled={loading}
+          onClick={async () => { setLoading(true); try { await onYouTube(); } catch(e) { alert("YouTube sign-in failed: " + e.message); setLoading(false); } }}>
+          {loading ? <><span className="spin si">◌</span><span>Connecting YouTube...</span></> : <><span className="si">▶️</span><span>Connect with YouTube</span></>}
         </button>
-        <button className="s-btn" onClick={onSkip}>
-          <span className="si">⚡</span>
-          <span>Continue without connecting</span>
-        </button>
-        <p className="divider-text">
-          We only read your public channel data.<br />
-          We never post, modify, or store anything.
-        </p>
+        <button className="s-btn" onClick={onSkip}><span className="si">⚡</span><span>Continue without connecting</span></button>
+        <p className="divider-text">We only read your public channel data.<br />We never post, modify, or store anything.</p>
       </div>
     </div>
   );
@@ -501,24 +540,19 @@ function Analytics({ ytData, ytUser, ytLoading, ytError, signIn, signOut }) {
   if (ytLoading) return (
     <div className="fade">
       <div className="ph"><div className="ph-title"><span>📊</span> YouTube Analytics</div></div>
-      <div className="loading-spinner">
-        <span className="spin" style={{fontSize:32,color:"var(--yt)"}}>◌</span>
-        <span>Fetching your channel data from YouTube...</span>
-      </div>
+      <div className="loading-spinner"><span className="spin" style={{fontSize:32,color:"var(--yt)"}}>◌</span><span>Fetching your channel data from YouTube...</span></div>
     </div>
   );
 
   if (!ytUser) return (
     <div className="fade">
       <div className="ph"><div className="ph-title"><span>📊</span> YouTube Analytics</div><div className="ph-sub">Connect your YouTube channel to see real analytics</div></div>
-      <div className="card" style={{textAlign:"center",padding:"48px 32px"}}>
+      <div className="card" style={{textAlign:"center",padding:"48px 24px"}}>
         <div style={{fontSize:52,marginBottom:18}}>▶️</div>
         <div style={{fontFamily:"var(--fh)",fontSize:18,fontWeight:700,marginBottom:10}}>Connect Your YouTube Channel</div>
-        <div style={{fontSize:13.5,color:"var(--t2)",marginBottom:24,lineHeight:1.65,maxWidth:400,margin:"0 auto 24px"}}>
-          Link your YouTube account to unlock real subscriber counts, video performance data, watch time analytics, and AI-powered growth recommendations.
-        </div>
+        <div style={{fontSize:13.5,color:"var(--t2)",marginBottom:24,lineHeight:1.65,maxWidth:400,margin:"0 auto 24px"}}>Link your YouTube account to unlock real subscriber counts, video performance data, and AI-powered growth recommendations.</div>
         {ytError && <div style={{color:"#ff8080",fontSize:12.5,marginBottom:16,padding:"10px 16px",background:"rgba(255,43,43,.08)",borderRadius:9}}>{ytError}</div>}
-        <button className="btn btn-yt" onClick={signIn}>▶️ Connect YouTube Channel</button>
+        <button className="btn btn-yt" style={{width:"auto",display:"inline-flex"}} onClick={signIn}>▶️ Connect YouTube Channel</button>
         <div style={{fontSize:11.5,color:"var(--t3)",marginTop:14}}>Read-only access · No posting permissions · Revoke anytime</div>
       </div>
     </div>
@@ -527,60 +561,33 @@ function Analytics({ ytData, ytUser, ytLoading, ytError, signIn, signOut }) {
   const { channel, videos } = ytData;
   const avgViews = videos?.length ? Math.round(videos.reduce((s,v)=>s+v.views,0)/videos.length) : 0;
   const topVideo = videos?.length ? videos.reduce((a,b)=>a.views>b.views?a:b) : null;
-
-  // Build growth sparkline from video publish dates
   const monthlyViews = {};
-  videos?.forEach(v => {
-    const mo = new Date(v.publishedAt).toLocaleString("en-IN",{month:"short",year:"2-digit"});
-    monthlyViews[mo] = (monthlyViews[mo]||0) + v.views;
-  });
+  videos?.forEach(v => { const mo = new Date(v.publishedAt).toLocaleString("en-IN",{month:"short",year:"2-digit"}); monthlyViews[mo] = (monthlyViews[mo]||0) + v.views; });
   const growthData = Object.entries(monthlyViews).map(([m,views])=>({m,views})).slice(-6);
 
   return (
     <div className="fade">
-      <div className="ph">
-        <div className="ph-title"><span>📊</span> YouTube Analytics</div>
-        <div className="ph-sub">Real-time data from your channel</div>
-      </div>
-
-      {/* Channel Card */}
+      <div className="ph"><div className="ph-title"><span>📊</span> YouTube Analytics</div><div className="ph-sub">Real-time data from your channel</div></div>
       <div className="yt-channel-card">
-        {channel.thumbnail
-          ? <img src={channel.thumbnail} alt={channel.name} className="yt-thumb" />
-          : <div className="yt-thumb-placeholder">▶️</div>
-        }
-        <div className="yt-channel-info">
-          <div className="yt-channel-name">{channel.name}</div>
-          <div className="yt-channel-handle">{channel.handle}</div>
-          <div style={{marginTop:7,fontSize:11.5,color:"var(--t2)"}}>
-            Channel since {fmtDate(channel.publishedAt)}
-          </div>
-        </div>
-        <div style={{display:"flex",flexDirection:"column",gap:8,alignItems:"flex-end"}}>
-          <span className="yt-live-badge">🔴 LIVE DATA</span>
-          <button className="btn btn-gh btn-sm" onClick={signOut}>Disconnect</button>
-        </div>
+        {channel.thumbnail ? <img src={channel.thumbnail} alt={channel.name} className="yt-thumb" /> : <div className="yt-thumb-placeholder">▶️</div>}
+        <div className="yt-channel-info"><div className="yt-channel-name">{channel.name}</div><div className="yt-channel-handle">{channel.handle}</div><div style={{marginTop:7,fontSize:11.5,color:"var(--t2)"}}>Channel since {fmtDate(channel.publishedAt)}</div></div>
+        <div style={{display:"flex",flexDirection:"column",gap:8,alignItems:"flex-end"}}><span className="yt-live-badge">🔴 LIVE DATA</span><button className="btn btn-gh btn-sm" onClick={signOut}>Disconnect</button></div>
       </div>
-
-      {/* Stats */}
       <div className="g4" style={{marginBottom:17}}>
         <div className="stat syt"><div className="s-lbl">Subscribers</div><div className="s-val">{fmt(channel.subscribers)}</div><div className="s-sub">Total subscribers</div></div>
         <div className="stat syt"><div className="s-lbl">Total Views</div><div className="s-val">{fmt(channel.totalViews)}</div><div className="s-sub">All time</div></div>
         <div className="stat syt"><div className="s-lbl">Videos</div><div className="s-val">{channel.videoCount}</div><div className="s-sub">Published</div></div>
         <div className="stat syt"><div className="s-lbl">Avg Views</div><div className="s-val">{fmt(avgViews)}</div><div className="s-sub">Per video (recent)</div></div>
       </div>
-
-      {/* Tabs */}
       <div className="section-tabs">
         {[["overview","📈 Overview"],["videos","🎬 Recent Videos"],["top","🏆 Top Performing"]].map(([id,l])=>(
           <button key={id} className={`stab${tab===id?" on":""}`} onClick={()=>setTab(id)}>{l}</button>
         ))}
       </div>
-
       {tab === "overview" && (
         <div className="g2">
           <div className="card">
-            <div className="ct"><span className="d"></span>Views by Month (Recent Videos)</div>
+            <div className="ct"><span className="d"></span>Views by Month</div>
             {growthData.length > 0 ? (
               <ResponsiveContainer width="100%" height={180}>
                 <BarChart data={growthData}>
@@ -597,64 +604,48 @@ function Analytics({ ytData, ytUser, ytLoading, ytError, signIn, signOut }) {
             <div className="card">
               <div className="ct"><span className="d"></span>Top Performing Video</div>
               <div className="video-thumb">
-                {topVideo.thumb
-                  ? <img src={topVideo.thumb} alt={topVideo.title} style={{width:"100%",aspectRatio:"16/9",objectFit:"cover"}}/>
-                  : <div className="video-thumb-img">🎬</div>
-                }
-                <div className="video-info">
-                  <div className="video-title">{topVideo.title}</div>
-                  <div className="video-meta">
-                    <span className="tag tyt">👁 {fmt(topVideo.views)}</span>
-                    <span className="tag tgr">❤️ {fmt(topVideo.likes)}</span>
-                    <span className="tag tpu">💬 {fmt(topVideo.comments)}</span>
-                  </div>
-                </div>
+                {topVideo.thumb ? <img src={topVideo.thumb} alt={topVideo.title} style={{width:"100%",aspectRatio:"16/9",objectFit:"cover"}}/> : <div className="video-thumb-img">🎬</div>}
+                <div className="video-info"><div className="video-title">{topVideo.title}</div><div className="video-meta"><span className="tag tyt">👁 {fmt(topVideo.views)}</span><span className="tag tgr">❤️ {fmt(topVideo.likes)}</span><span className="tag tpu">💬 {fmt(topVideo.comments)}</span></div></div>
               </div>
             </div>
           )}
         </div>
       )}
-
       {tab === "videos" && (
         <div className="card">
           <div className="ct"><span className="d"></span>Recent Videos ({videos?.length})</div>
-          <div style={{display:"grid",gridTemplateColumns:"repeat(3,1fr)",gap:12}}>
+          <div className="video-grid">
             {videos?.map(v=>(
               <a key={v.id} href={`https://youtube.com/watch?v=${v.id}`} target="_blank" rel="noreferrer" style={{textDecoration:"none",color:"inherit"}}>
                 <div className="video-thumb">
                   {v.thumb ? <img src={v.thumb} alt={v.title} style={{width:"100%",aspectRatio:"16/9",objectFit:"cover"}}/> : <div className="video-thumb-img">🎬</div>}
-                  <div className="video-info">
-                    <div className="video-title">{v.title}</div>
-                    <div className="video-meta" style={{display:"flex",gap:6,flexWrap:"wrap"}}>
-                      <span className="tag tyt">👁 {fmt(v.views)}</span>
-                      <span className="tag tgr">❤️ {fmt(v.likes)}</span>
-                    </div>
-                  </div>
+                  <div className="video-info"><div className="video-title">{v.title}</div><div className="video-meta" style={{display:"flex",gap:6,flexWrap:"wrap"}}><span className="tag tyt">👁 {fmt(v.views)}</span><span className="tag tgr">❤️ {fmt(v.likes)}</span></div></div>
                 </div>
               </a>
             ))}
           </div>
         </div>
       )}
-
       {tab === "top" && (
         <div className="card">
           <div className="ct"><span className="d"></span>Top Videos by Views</div>
-          <table className="tbl">
-            <thead><tr><th>#</th><th>Title</th><th>Views</th><th>Likes</th><th>Comments</th><th>Published</th></tr></thead>
-            <tbody>
-              {[...(videos||[])].sort((a,b)=>b.views-a.views).map((v,i)=>(
-                <tr key={v.id}>
-                  <td><span className="tag tyw">#{i+1}</span></td>
-                  <td><a href={`https://youtube.com/watch?v=${v.id}`} target="_blank" rel="noreferrer" style={{color:"var(--tx)",textDecoration:"none",fontWeight:500}}>{v.title.slice(0,55)}{v.title.length>55?"...":""}</a></td>
-                  <td style={{fontFamily:"var(--fh)",fontWeight:700,color:"var(--yt)"}}>{fmt(v.views)}</td>
-                  <td style={{color:"var(--gr)"}}>{fmt(v.likes)}</td>
-                  <td style={{color:"var(--t2)"}}>{fmt(v.comments)}</td>
-                  <td style={{color:"var(--t3)",fontSize:11}}>{fmtDate(v.publishedAt)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="tbl-wrap">
+            <table className="tbl">
+              <thead><tr><th>#</th><th>Title</th><th>Views</th><th>Likes</th><th>Comments</th><th>Published</th></tr></thead>
+              <tbody>
+                {[...(videos||[])].sort((a,b)=>b.views-a.views).map((v,i)=>(
+                  <tr key={v.id}>
+                    <td><span className="tag tyw">#{i+1}</span></td>
+                    <td><a href={`https://youtube.com/watch?v=${v.id}`} target="_blank" rel="noreferrer" style={{color:"var(--tx)",textDecoration:"none",fontWeight:500}}>{v.title.slice(0,55)}{v.title.length>55?"...":""}</a></td>
+                    <td style={{fontFamily:"var(--fh)",fontWeight:700,color:"var(--yt)"}}>{fmt(v.views)}</td>
+                    <td style={{color:"var(--gr)"}}>{fmt(v.likes)}</td>
+                    <td style={{color:"var(--t2)"}}>{fmt(v.comments)}</td>
+                    <td style={{color:"var(--t3)",fontSize:11}}>{fmtDate(v.publishedAt)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>
@@ -675,7 +666,7 @@ function Dashboard({ user, profile, setProfile, ytUser, nav }) {
         <label className="lbl">Username</label>
         <input placeholder="@yourcreatorname" value={h} onChange={e=>setH(e.target.value)} />
         <div className="ct"><span className="d"></span>Your Content Niche</div>
-        <div>{NICHES.map(n=><span key={n.l} className={`nc${tn===n.l?" on":""}`} onClick={()=>setTn(n.l)}>{n.e} {n.l}</span>)}</div>
+        <div style={{display:"flex",flexWrap:"wrap"}}>{NICHES.map(n=><span key={n.l} className={`nc${tn===n.l?" on":""}`} onClick={()=>setTn(n.l)}>{n.e} {n.l}</span>)}</div>
         <div className="mt"><button className="btn btn-ig" disabled={!tn||!h} onClick={()=>{setProfile({niche:tn,handle:h});setStep(1);}}>🚀 Start Creating</button></div>
       </div>
     </div>
@@ -701,19 +692,21 @@ function Dashboard({ user, profile, setProfile, ytUser, nav }) {
         <div className="card">
           <div className="ct"><span className="d"></span>Your Profile</div>
           {ytUser && (
-            <div style={{display:"flex",alignItems:"center",gap:12,padding:"14px",background:"rgba(255,43,43,.07)",borderRadius:11,border:"1px solid rgba(255,43,43,.2)",marginBottom:13}}>
+            <div style={{display:"flex",alignItems:"center",gap:12,padding:"14px",background:"rgba(255,43,43,.07)",borderRadius:11,border:"1px solid rgba(255,43,43,.2)",marginBottom:13,flexWrap:"wrap"}}>
               {ytUser.thumbnail ? <img src={ytUser.thumbnail} style={{width:42,height:42,borderRadius:"50%",objectFit:"cover"}} alt={ytUser.name}/> : <span style={{fontSize:28}}>▶️</span>}
-              <div><div style={{fontWeight:600,fontSize:13.5}}>{ytUser.name}</div><div style={{fontSize:11.5,color:"var(--yt)"}}>{ytUser.handle}</div></div>
-              <span className="yt-live-badge" style={{marginLeft:"auto"}}>🔴 LIVE</span>
+              <div style={{flex:1,minWidth:100}}><div style={{fontWeight:600,fontSize:13.5}}>{ytUser.name}</div><div style={{fontSize:11.5,color:"var(--yt)"}}>{ytUser.handle}</div></div>
+              <span className="yt-live-badge">🔴 LIVE</span>
             </div>
           )}
-          <table className="tbl">
-            <tbody>
-              {[["Handle",profile.handle],["Niche",profile.niche],["Platform","YouTube" + (ytUser?" ✅":"")]].map(([k,v])=>(
-                <tr key={k}><td style={{color:"var(--t3)",width:90}}>{k}</td><td style={{fontWeight:600}}>{v}</td></tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="tbl-wrap">
+            <table className="tbl">
+              <tbody>
+                {[["Handle",profile.handle],["Niche",profile.niche],["Platform","YouTube" + (ytUser?" ✅":"")]].map(([k,v])=>(
+                  <tr key={k}><td style={{color:"var(--t3)",width:90}}>{k}</td><td style={{fontWeight:600}}>{v}</td></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <div className="mt8"><button className="btn btn-gh btn-sm" onClick={()=>setStep(0)}>✏️ Edit Profile</button></div>
         </div>
       </div>
@@ -721,19 +714,14 @@ function Dashboard({ user, profile, setProfile, ytUser, nav }) {
   );
 }
 
-/* ─── GENERIC AI PAGE (with streaming) ─────────────────────── */
+/* ─── GENERIC AI PAGE ──────────────────────────────────────── */
 function AIPage({ title, icon, sub, tip, fields, buildPrompt, sys, outLabel, extraActions }) {
   const { out, loading, run } = useAI();
   const [vals, setVals] = useState({});
   const [copied, setCopied] = useState(false);
   const sv = (k,v) => setVals(p=>({...p,[k]:v}));
   const canRun = fields.filter(f=>f.req).every(f=>vals[f.k]?.trim());
-
-  const copy = () => {
-    navigator.clipboard?.writeText(out);
-    setCopied(true);
-    setTimeout(()=>setCopied(false),2000);
-  };
+  const copy = () => { navigator.clipboard?.writeText(out); setCopied(true); setTimeout(()=>setCopied(false),2000); };
 
   return (
     <div className="fade">
@@ -748,10 +736,7 @@ function AIPage({ title, icon, sub, tip, fields, buildPrompt, sys, outLabel, ext
               {f.type==="select"
                 ? <select value={vals[f.k]||f.opts[0]} onChange={e=>sv(f.k,e.target.value)}>{f.opts.map(o=><option key={o}>{o}</option>)}</select>
                 : f.type==="textarea"
-                  ? <>
-                      <textarea placeholder={f.ph} value={vals[f.k]||""} onChange={e=>sv(f.k,e.target.value)} style={f.tall?{minHeight:130}:{}}/>
-                      {f.showCount && <div className="char-count">{(vals[f.k]||"").length} chars</div>}
-                    </>
+                  ? <><textarea placeholder={f.ph} value={vals[f.k]||""} onChange={e=>sv(f.k,e.target.value)} style={f.tall?{minHeight:130}:{}}/>{f.showCount && <div className="char-count">{(vals[f.k]||"").length} chars</div>}</>
                   : <input placeholder={f.ph} value={vals[f.k]||""} onChange={e=>sv(f.k,e.target.value)}/>
               }
             </div>
@@ -763,21 +748,12 @@ function AIPage({ title, icon, sub, tip, fields, buildPrompt, sys, outLabel, ext
         <div className="card" style={{display:"flex",flexDirection:"column"}}>
           <div className="ct"><span className="d"></span>{outLabel||"AI Output"}</div>
           {loading
-            ? <div style={{color:"var(--t2)",fontSize:13.5,display:"flex",alignItems:"flex-start",gap:9}}>
-                <span className="pulse">✦</span>
-                <span style={{fontStyle:"italic"}}>
-                  {out || "AI is thinking..."}
-                </span>
-              </div>
-            : <div className={`out${!out?" empty":out.startsWith("⚠️")?" err":""}`} style={{flex:1,minHeight:240}}>
-                {out || "Your AI-generated content will appear here..."}
-              </div>
+            ? <div style={{color:"var(--t2)",fontSize:13.5,display:"flex",alignItems:"flex-start",gap:9}}><span className="pulse">✦</span><span style={{fontStyle:"italic"}}>{out || "AI is thinking..."}</span></div>
+            : <div className={`out${!out?" empty":out.startsWith("⚠️")?" err":""}`} style={{flex:1,minHeight:240}}>{out || "Your AI-generated content will appear here..."}</div>
           }
           {out && !loading && !out.startsWith("⚠️") && (
             <div className="mt8" style={{display:"flex",gap:8,flexWrap:"wrap"}}>
-              <button className="btn btn-gh btn-sm" onClick={copy}>
-                {copied ? <span className="copy-success">✅ Copied!</span> : "📋 Copy"}
-              </button>
+              <button className="btn btn-gh btn-sm" onClick={copy}>{copied ? <span className="copy-success">✅ Copied!</span> : "📋 Copy"}</button>
               {extraActions?.(vals, out)}
             </div>
           )}
@@ -797,34 +773,9 @@ const GrowthPage = ({profile, ytUser}) => <AIPage
     {k:"goal",label:"Your 90-Day Goal",ph:"e.g. Reach 50K subscribers, hit 1M views",req:true},
     {k:"platform",label:"Primary Platform",type:"select",opts:["YouTube","Instagram","YouTube + Instagram","TikTok"]},
     {k:"freq",label:"Current Posting Frequency",type:"select",opts:["Daily","3-4x per week","1-2x per week","Once a month","Inconsistent"]},
-    {k:"challenge",label:"Biggest Challenge Right Now",type:"textarea",ph:"e.g. My Shorts get views but long-form doesn't. My engagement rate is 0.8%..."},
+    {k:"challenge",label:"Biggest Challenge Right Now",type:"textarea",ph:"e.g. My Shorts get views but long-form doesn't..."},
   ]}
-  buildPrompt={v=>`I'm a ${profile.niche||"content"} creator on ${v.platform||"YouTube"} with ${v.followers} subscribers/followers.
-90-day goal: ${v.goal}
-Current posting: ${v.freq||"1-2x per week"}
-My challenge: ${v.challenge||"Growing consistently"}
-${ytUser?`My channel: ${ytUser.name} (${ytUser.videoCount} videos, ${fmt(ytUser.totalViews)} total views)`:""}
-
-Build me a detailed, personalised 90-day growth strategy with:
-
-**MONTH 1 — Foundation (Days 1-30)**
-- Specific content pillars (5 topics I should own for ${profile.niche})
-- Weekly posting schedule with exact content types
-- 3 quick-win tactics to implement immediately
-
-**MONTH 2 — Acceleration (Days 31-60)**
-- Algorithm exploitation tactics specific to ${v.platform||"YouTube"} in 2025
-- Collaboration and community strategies
-- Content batching system
-
-**MONTH 3 — Scale (Days 61-90)**
-- Monetisation groundwork
-- Viral content formula for ${profile.niche}
-- How to hit the goal of ${v.goal}
-
-**BONUS: 5 underused growth hacks** for ${profile.niche} creators right now.
-
-Be brutally specific. No generic advice.`}
+  buildPrompt={v=>`I'm a ${profile.niche||"content"} creator on ${v.platform||"YouTube"} with ${v.followers} subscribers/followers.\n90-day goal: ${v.goal}\nCurrent posting: ${v.freq||"1-2x per week"}\nMy challenge: ${v.challenge||"Growing consistently"}\n${ytUser?`My channel: ${ytUser.name} (${ytUser.videoCount} videos, ${fmt(ytUser.totalViews)} total views)`:""}\n\nBuild me a detailed, personalised 90-day growth strategy with:\n\n**MONTH 1 — Foundation (Days 1-30)**\n- Specific content pillars (5 topics I should own for ${profile.niche})\n- Weekly posting schedule with exact content types\n- 3 quick-win tactics to implement immediately\n\n**MONTH 2 — Acceleration (Days 31-60)**\n- Algorithm exploitation tactics specific to ${v.platform||"YouTube"} in 2025\n- Collaboration and community strategies\n- Content batching system\n\n**MONTH 3 — Scale (Days 61-90)**\n- Monetisation groundwork\n- Viral content formula for ${profile.niche}\n- How to hit the goal of ${v.goal}\n\n**BONUS: 5 underused growth hacks** for ${profile.niche} creators right now.\n\nBe brutally specific. No generic advice.`}
   sys="You are an elite social media growth strategist who has scaled 50+ creator channels from 0 to 100K+. Give specific, data-driven, niche-targeted strategies. Use clear headers and numbered lists. Be direct and tactical, not motivational."
   outLabel="Your 90-Day Growth Roadmap"
 />;
@@ -839,196 +790,88 @@ const ScriptPage = ({profile}) => <AIPage
     {k:"angle",label:"Your Unique Angle",ph:"e.g. I failed on day 18 — here's what that taught me",req:true},
     {k:"audience",label:"Target Audience",ph:"e.g. 20-35 year old professionals trying to build discipline"},
   ]}
-  buildPrompt={v=>`Write a complete, ready-to-record ${v.format||"YouTube"} script for a ${profile.niche||"lifestyle"} creator.
-
-TOPIC: ${v.topic}
-UNIQUE ANGLE: ${v.angle}
-TARGET AUDIENCE: ${v.audience||"Young adults interested in "+profile.niche}
-
-FORMAT REQUIREMENTS FOR ${v.format||"YouTube Long-form"}:
-
-[HOOK — Seconds 0-8]
-Write 3 alternative hook options, label them Option A, B, C.
-Make each one different: stat-based, story-based, and question-based.
-
-[OPEN LOOP — Seconds 8-30]
-Set up curiosity. Promise the value. Don't deliver it yet.
-
-[CHAPTER STRUCTURE]
-For each chapter:
-- Timestamp marker (e.g., [2:15])
-- Chapter title (for YouTube chapters)
-- Full dialogue/narration (conversational, not robotic)
-- [B-ROLL: specific visual suggestion]
-- Transition to next chapter
-
-[CALL TO ACTION — Final 20 seconds]
-2 CTA options: soft and direct.
-
-STYLE NOTES:
-- Sound like a real person talking, not reading
-- Use pattern interrupts every 60-90 seconds
-- Include a re-hook at the 30% mark (viewers almost dropped off)
-- End on a cliffhanger or open question`}
-  sys="You are a top-tier YouTube scriptwriter who has written for channels with 1M+ subscribers. Write scripts that feel like real conversation. Use [B-ROLL] tags, chapter markers, and retention hooks. Never sound like an AI."
+  buildPrompt={v=>`Write a complete, ready-to-record ${v.format||"YouTube"} script for a ${profile.niche||"lifestyle"} creator.\n\nTOPIC: ${v.topic}\nUNIQUE ANGLE: ${v.angle}\nTARGET AUDIENCE: ${v.audience||"Young adults interested in "+profile.niche}\n\n[HOOK — Seconds 0-8]\nWrite 3 alternative hook options.\n\n[OPEN LOOP — Seconds 8-30]\nSet up curiosity.\n\n[CHAPTER STRUCTURE]\nFor each chapter: Timestamp, Chapter title, Full dialogue, [B-ROLL] tags, Transition.\n\n[CALL TO ACTION]\n2 CTA options: soft and direct.\n\nSTYLE: Sound like a real person. Use pattern interrupts every 60-90s. Include a re-hook at 30%.`}
+  sys="You are a top-tier YouTube scriptwriter who has written for channels with 1M+ subscribers. Write scripts that feel like real conversation. Use [B-ROLL] tags, chapter markers, and retention hooks."
   outLabel="Your Complete Script"
 />;
 
 const CaptionPage = ({profile}) => <AIPage
   title="Caption & Hashtag Generator" icon="✍️"
-  sub="Algorithm-optimised captions with perfectly researched hashtag sets for maximum reach"
-  tip="Describe your post in detail — the more context you give, the more authentic the caption sounds."
+  sub="Algorithm-optimised captions with perfectly researched hashtag sets"
+  tip="Describe your post in detail — the more context, the more authentic the caption."
   fields={[
-    {k:"desc",label:"Describe Your Post",type:"textarea",ph:"e.g. A Reel where I show my entire morning routine — 5am wake up, cold plunge, journaling, gym. Aesthetic b-roll, upbeat music.",req:true,showCount:true},
+    {k:"desc",label:"Describe Your Post",type:"textarea",ph:"e.g. A Reel where I show my entire morning routine...",req:true,showCount:true},
     {k:"tone",label:"Brand Voice",type:"select",opts:["Inspiring & Motivational","Witty & Relatable","Casual & Friendly","Educational & Expert","Vulnerable & Authentic","Hype & Energetic"]},
     {k:"platform",label:"Platform",type:"select",opts:["Instagram","YouTube Community","Both"]},
     {k:"cta",label:"Goal of This Post",type:"select",opts:["Drive engagement (comments)","Grow followers","Drive website/link clicks","Build brand awareness","Sell a product/service"]},
     {k:"count",label:"Variations",type:"select",opts:["3 variations","5 variations","1 (just the best one)"]},
   ]}
-  buildPrompt={v=>`Generate ${v.count||"3 variations"} ${v.platform||"Instagram"} captions for a ${profile.niche||"lifestyle"} creator.
-
-POST DESCRIPTION: ${v.desc}
-BRAND VOICE: ${v.tone||"Inspiring & Motivational"}
-GOAL: ${v.cta||"Drive engagement"}
-
-For EACH caption variation, provide:
-
-**CAPTION [1/2/3] — [Give it a style name e.g., "Storytelling" or "Punchy"]**
-[The full caption — 3-8 lines, emojis where natural, line breaks for readability]
-[The call-to-action on its own line]
-
-**HASHTAG SET [primary — 15 tags]:**
-[Mix: 3 mega (1M+), 5 large (500K-1M), 5 medium (50K-500K), 2 niche-specific]
-
-**HASHTAG SET [niche — 10 tags]:**
-[All highly specific to ${profile.niche}, lower competition, higher conversion]
-
-Separate each variation with a clear --- divider.
-After all variations, add a PRO TIP about the best time to post for ${profile.niche} content.`}
-  sys="You are an Instagram growth expert and professional copywriter. Write captions that sound like a real human, not an AI. Vary sentence length, use authentic voice, and create genuine curiosity. Research hashtags strategically."
+  buildPrompt={v=>`Generate ${v.count||"3 variations"} ${v.platform||"Instagram"} captions for a ${profile.niche||"lifestyle"} creator.\n\nPOST: ${v.desc}\nVOICE: ${v.tone||"Inspiring"}\nGOAL: ${v.cta||"Drive engagement"}\n\nFor EACH: caption (3-8 lines), CTA, HASHTAG SET primary (15 tags), HASHTAG SET niche (10 tags).\nSeparate with --- dividers. Add a PRO TIP at end.`}
+  sys="You are an Instagram growth expert and professional copywriter. Write captions that sound human, not AI. Research hashtags strategically."
   outLabel="Your Captions + Hashtag Sets"
 />;
 
 const HookPage = ({profile}) => <AIPage
   title="Hook Generator" icon="🪝"
-  sub="The first 3-8 seconds that stop the scroll and earn the watch. Engineered for virality."
-  tip="Your hook is worth 90% of your video's success. Test multiple hooks on the same video."
+  sub="The first 3-8 seconds that stop the scroll. Engineered for virality."
+  tip="Your hook is worth 90% of your video's success."
   fields={[
-    {k:"topic",label:"Content Topic",ph:"e.g. How I paid off ₹5 lakh debt in 8 months on a ₹40K salary",req:true},
+    {k:"topic",label:"Content Topic",ph:"e.g. How I paid off ₹5 lakh debt in 8 months",req:true},
     {k:"platform",label:"Platform & Format",type:"select",opts:["YouTube Long-form","YouTube Shorts","Instagram Reel","Instagram Story"]},
     {k:"audience",label:"Who Is Watching",ph:"e.g. Young professionals aged 22-30 stressed about money"},
     {k:"emotion",label:"Core Emotion to Trigger",type:"select",opts:["Curiosity","Shock / Disbelief","Relatability","Fear of missing out","Inspiration","Controversy"]},
   ]}
-  buildPrompt={v=>`Generate 12 power hooks for a ${v.platform||"YouTube"} video by a ${profile.niche||"lifestyle"} creator.
-
-TOPIC: ${v.topic}
-AUDIENCE: ${v.audience||"General "+profile.niche+" audience"}
-CORE EMOTION: ${v.emotion||"Curiosity"}
-
-Create 12 hooks using these formats (one each):
-1. 📊 THE STAT HOOK — Open with a shocking number
-2. 😤 THE CONTROVERSIAL TAKE — Say something that challenges common belief
-3. 😬 THE RELATABLE PAIN — Name an exact problem they have
-4. 🕳️ THE CURIOSITY GAP — Create an information vacuum they must fill
-5. 🏆 THE BOLD PROMISE — Lead with a specific, valuable outcome
-6. 📖 THE MICRO-STORY — 1-2 sentence story that creates tension
-7. ❓ THE DIRECT QUESTION — Ask something they can't say no to
-8. 🚫 THE MYTH-BUSTER — "Stop doing X. Here's why."
-9. 👆 THE CALLOUT — "If you [specific identity], this is for you."
-10. 🔄 THE REVERSAL — "I was completely wrong about X."
-11. ⏱️ THE TIME HOOK — "In the next 60 seconds you'll learn..."
-12. 🤫 THE SECRET — "Nobody talks about this but..."
-
-For each hook:
-- Write the hook (max 15 words for Shorts/Reels, 20 for long-form)
-- Rate it out of 10 for this specific topic
-- One line on why it works psychologically
-
-End with your TOP 3 picks and why.`}
-  sys="You are a viral content psychologist and hook specialist. You understand the psychology behind attention. Write hooks that trigger immediate emotional responses. Be specific to the topic, never generic."
+  buildPrompt={v=>`Generate 12 power hooks for a ${v.platform||"YouTube"} video by a ${profile.niche||"lifestyle"} creator.\n\nTOPIC: ${v.topic}\nAUDIENCE: ${v.audience||"General audience"}\nEMOTION: ${v.emotion||"Curiosity"}\n\nCreate 12 hooks: 1.📊 STAT 2.😤 CONTROVERSIAL 3.😬 RELATABLE PAIN 4.🕳️ CURIOSITY GAP 5.🏆 BOLD PROMISE 6.📖 MICRO-STORY 7.❓ DIRECT QUESTION 8.🚫 MYTH-BUSTER 9.👆 CALLOUT 10.🔄 REVERSAL 11.⏱️ TIME 12.🤫 SECRET\n\nFor each: hook (max 15-20 words), rating /10, why it works. End with TOP 3 picks.`}
+  sys="You are a viral content psychologist and hook specialist. Write hooks that trigger immediate emotional responses. Be specific, never generic."
   outLabel="Your 12 Power Hooks + Analysis"
 />;
 
 const RepurposePage = ({profile}) => <AIPage
   title="Repurpose Engine" icon="🔁"
-  sub="Extract maximum value from every piece of content — turn 1 video into 10 assets"
-  tip="Your best-performing YouTube videos are goldmines. Repurpose them into 6+ content formats."
+  sub="Turn 1 video into 10 assets — extract maximum value from every piece of content"
+  tip="Your best-performing videos are goldmines. Repurpose them into 6+ formats."
   fields={[
-    {k:"content",label:"Paste Your Original Content",type:"textarea",ph:"Paste your video script, transcript, blog post, or a detailed summary of your content...",req:true,tall:true},
+    {k:"content",label:"Paste Your Original Content",type:"textarea",ph:"Paste your video script, transcript, or summary...",req:true,tall:true},
     {k:"from",label:"Original Format",type:"select",opts:["YouTube Long-form Video","YouTube Short","Blog Post / Article","Podcast Episode","Twitter/X Thread","Instagram Reel"]},
     {k:"to",label:"Repurpose Into",type:"select",opts:["Instagram Carousel (10 slides)","Instagram Reel Script (60s)","YouTube Short Script","Twitter/X Thread (8-10 tweets)","LinkedIn Post","Email Newsletter","Pinterest Pins (5 ideas)","Blog Post Outline"]},
     {k:"style",label:"Content Style",type:"select",opts:["Keep original style/tone","Make it more educational","Make it more entertaining","Make it more conversational","Make it more inspirational"]},
   ]}
-  buildPrompt={v=>`Repurpose this ${v.from||"YouTube Video"} into a ${v.to||"Instagram Carousel"} for a ${profile.niche||"lifestyle"} creator.
-Style direction: ${v.style||"Keep original style"}
-
-ORIGINAL CONTENT:
-${v.content}
-
-Create a COMPLETE, ready-to-publish ${v.to||"Instagram Carousel"}.
-
-For Instagram Carousel (10 slides):
-- Slide 1: Hook slide (bold statement or question — designed to make them swipe)
-- Slides 2-9: One insight per slide (headline + 2-3 lines + visual suggestion)
-- Slide 10: CTA slide (save this, follow for more, comment question)
-- Include: caption for the post + 20 hashtags
-
-For YouTube Short / Reel Script:
-- Hook (0-3s), Setup (3-10s), Value (10-50s), CTA (50-60s)
-- [VISUAL] notes throughout
-
-For Twitter/X Thread:
-- Tweet 1: Hook tweet (standalone viral potential)
-- Tweets 2-9: One point each (under 280 chars, punchy)
-- Tweet 10: CTA + summary
-
-Make it feel 100% native to ${v.to||"Instagram"} — not a copy-paste job.`}
-  sys="You are a content repurposing expert who has managed content strategies for 7-figure creators. You know how to extract the essence of content and rebuild it in ways that feel native to each platform. Never just summarise — transform."
+  buildPrompt={v=>`Repurpose this ${v.from||"YouTube Video"} into a ${v.to||"Instagram Carousel"} for a ${profile.niche||"lifestyle"} creator.\nStyle: ${v.style||"Keep original style"}\n\nORIGINAL CONTENT:\n${v.content}\n\nCreate a COMPLETE, ready-to-publish ${v.to||"Instagram Carousel"}. Make it feel native to the platform.`}
+  sys="You are a content repurposing expert. Extract the essence and rebuild it natively for each platform. Never just summarise — transform."
   outLabel="Your Repurposed Content"
 />;
 
-/* ─── VIRAL SCORE (custom) ───────────────────────────────────── */
+/* ─── VIRAL SCORE ────────────────────────────────────────────── */
 function ViralScorePage({ profile }) {
   const [idea, setIdea] = useState(""); const [loading, setLoading] = useState(false); const [res, setRes] = useState(null);
-
   const analyze = async () => {
     if (!idea.trim()) return;
     setLoading(true); setRes(null);
-    const raw = await callClaude(
-      `Analyze this content idea for a ${profile.niche||"lifestyle"} creator on YouTube/Instagram:
-"${idea}"
-
-Think deeply about: hook potential, shareability, niche relevance, current trend alignment, competition level, production difficulty, and monetisation potential.
-
-Respond with ONLY this JSON — no markdown, no code fences, no preamble:
-{"score":75,"hook":82,"shareability":70,"niche_fit":88,"trend":65,"competition":60,"production":80,"verdict":"One punchy sentence verdict","potential":"High / Medium / Low","best_platform":"YouTube Shorts","best_time":"Tuesday 6-8pm IST","why_it_works":"2-3 sentences explaining the core appeal","strengths":["specific strength 1","specific strength 2","specific strength 3"],"improvements":["specific tip 1","specific tip 2","specific tip 3"],"similar_viral":"Name of a similar video that went viral","title_suggestions":["Title idea 1","Title idea 2","Title idea 3"]}`,
-      "You are a viral content analyst with deep knowledge of YouTube and Instagram algorithms. Respond with ONLY the raw JSON object. Absolutely no markdown, no code fences, no explanation."
+    const raw = await callClaude(`Analyze this content idea for a ${profile.niche||"lifestyle"} creator:\n"${idea}"\n\nRespond with ONLY this JSON:\n{"score":75,"hook":82,"shareability":70,"niche_fit":88,"trend":65,"competition":60,"production":80,"verdict":"One sentence","potential":"High / Medium / Low","best_platform":"YouTube Shorts","best_time":"Tuesday 6-8pm IST","why_it_works":"2-3 sentences","strengths":["str1","str2","str3"],"improvements":["tip1","tip2","tip3"],"similar_viral":"Similar viral video name","title_suggestions":["Title 1","Title 2","Title 3"]}`,
+      "Respond with ONLY raw JSON. No markdown, no code fences."
     );
     try { setRes(JSON.parse(raw.replace(/```json|```/g,"").trim())); }
     catch { setRes({score:0,verdict:"Parse error — please try again.",strengths:[],improvements:[],hook:0,shareability:0,niche_fit:0,trend:0,competition:0,production:0,title_suggestions:[]}); }
     setLoading(false);
   };
-
   const sc = s => s>=80?"var(--gr)":s>=60?"var(--yw)":"var(--yt)";
   const pot = res?.potential==="High"?"pok":res?.potential==="Medium"?"pwn":"pdn";
 
   return (
     <div className="fade">
-      <div className="ph"><div className="ph-title"><span>🔥</span> Viral Score Analyzer</div><div className="ph-sub">Know your content's viral potential before you invest time recording it</div></div>
+      <div className="ph"><div className="ph-title"><span>🔥</span> Viral Score Analyzer</div><div className="ph-sub">Know your content's viral potential before you invest time recording</div></div>
       <div className="card">
-        <div className="tool-tip">💡 Be as specific as possible. "I tried eating one meal a day for 30 days" scores better than "intermittent fasting video".</div>
+        <div className="tool-tip">💡 Be specific. "I tried eating one meal a day for 30 days" scores better than "intermittent fasting video".</div>
         <div className="ct"><span className="d"></span>Your Content Idea</div>
-        <textarea style={{minHeight:95}} placeholder='e.g. "I quit social media for 90 days and here is exactly what happened to my mental health, relationships, and productivity"' value={idea} onChange={e=>setIdea(e.target.value)}/>
-        <button className="btn btn-ig" disabled={loading||!idea.trim()} onClick={analyze}>
-          {loading?<><span className="spin">◌</span> Analysing...</>:"🔥 Get Viral Score"}
-        </button>
+        <textarea style={{minHeight:95}} placeholder='e.g. "I quit social media for 90 days..."' value={idea} onChange={e=>setIdea(e.target.value)}/>
+        <button className="btn btn-ig" disabled={loading||!idea.trim()} onClick={analyze}>{loading?<><span className="spin">◌</span> Analysing...</>:"🔥 Get Viral Score"}</button>
       </div>
       {res && (
         <div className="fade">
           <div className="g2" style={{marginBottom:17}}>
             <div className="card" style={{textAlign:"center",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:6}}>
               <div style={{fontSize:11,textTransform:"uppercase",letterSpacing:2,color:"var(--t2)",fontFamily:"var(--fh)"}}>Viral Score</div>
-              <div style={{fontSize:80,fontFamily:"var(--fh)",fontWeight:800,color:sc(res.score),lineHeight:1,letterSpacing:-3}}>{res.score}</div>
+              <div style={{fontSize:72,fontFamily:"var(--fh)",fontWeight:800,color:sc(res.score),lineHeight:1,letterSpacing:-3}}>{res.score}</div>
               <div style={{fontSize:11.5,color:"var(--t3)"}}>/100</div>
               <div style={{fontSize:14,color:"var(--tx)",lineHeight:1.65,maxWidth:220,marginTop:6}}>{res.verdict}</div>
               <div style={{display:"flex",gap:7,marginTop:10,flexWrap:"wrap",justifyContent:"center"}}>
@@ -1041,34 +884,29 @@ Respond with ONLY this JSON — no markdown, no code fences, no preamble:
               <div className="ct"><span className="d"></span>Detailed Breakdown</div>
               {[["Hook Strength",res.hook],["Shareability",res.shareability],["Niche Fit",res.niche_fit],["Trend Relevance",res.trend],["Low Competition",res.competition],["Production Ease",res.production]].map(([l,s])=>(
                 <div key={l} style={{marginBottom:12}}>
-                  <div style={{display:"flex",justifyContent:"space-between",fontSize:12.5,marginBottom:5}}>
-                    <span style={{color:"var(--t2)"}}>{l}</span>
-                    <span style={{fontFamily:"var(--fh)",fontWeight:700,color:sc(s)}}>{s}</span>
-                  </div>
+                  <div style={{display:"flex",justifyContent:"space-between",fontSize:12.5,marginBottom:5}}><span style={{color:"var(--t2)"}}>{l}</span><span style={{fontFamily:"var(--fh)",fontWeight:700,color:sc(s)}}>{s}</span></div>
                   <div className="sbar"><div className="sbar-f" style={{width:`${s}%`}}/></div>
                 </div>
               ))}
             </div>
           </div>
-
           <div className="g2" style={{marginBottom:17}}>
             <div className="card"><div className="ct" style={{color:"var(--gr)"}}><span className="d" style={{background:"var(--gr)"}}></span>Why It Works</div>
               <p style={{fontSize:13.5,color:"var(--t2)",lineHeight:1.75}}>{res.why_it_works}</p>
               <div style={{marginTop:12}}>{res.strengths?.map((s,i)=><div key={i} style={{padding:"8px 0",borderBottom:"1px solid var(--bd)",fontSize:13.5,color:"var(--t2)"}}>{s}</div>)}</div>
             </div>
-            <div className="card"><div className="ct" style={{color:"var(--yw)"}}><span className="d" style={{background:"var(--yw)"}}></span>How to Improve It</div>
+            <div className="card"><div className="ct" style={{color:"var(--yw)"}}><span className="d" style={{background:"var(--yw)"}}></span>How to Improve</div>
               {res.improvements?.map((s,i)=><div key={i} style={{padding:"8px 0",borderBottom:"1px solid var(--bd)",fontSize:13.5,color:"var(--t2)"}}>{s}</div>)}
             </div>
           </div>
-
           {res.title_suggestions?.length > 0 && (
             <div className="card">
               <div className="ct"><span className="d"></span>🎯 Title Suggestions</div>
               <div style={{display:"flex",flexDirection:"column",gap:8}}>
                 {res.title_suggestions.map((t,i)=>(
-                  <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"11px 14px",background:"var(--s2)",borderRadius:10,border:"1px solid var(--bd)"}}>
+                  <div key={i} style={{display:"flex",alignItems:"center",gap:10,padding:"11px 14px",background:"var(--s2)",borderRadius:10,border:"1px solid var(--bd)",flexWrap:"wrap"}}>
                     <span style={{fontFamily:"var(--fh)",fontSize:11,color:"var(--igs)",minWidth:22}}>#{i+1}</span>
-                    <span style={{fontSize:13.5,flex:1}}>{t}</span>
+                    <span style={{fontSize:13.5,flex:1,minWidth:150}}>{t}</span>
                     <button className="btn btn-gh btn-sm" onClick={()=>navigator.clipboard?.writeText(t)}>Copy</button>
                   </div>
                 ))}
@@ -1091,28 +929,10 @@ function CalendarPage({ profile }) {
 
   const gen = async () => {
     setLoading(true); setPosts([]);
-    const raw = await callClaude(
-      `Generate a strategic 30-day content calendar for a ${profile.niche||"lifestyle"} creator on YouTube and Instagram.
-${themes?`Content themes/focus: ${themes}.`:""}
-${goal?`Creator's monthly goal: ${goal}.`:""}
-
-Return ONLY a JSON array of exactly 30 objects:
-[{"day":1,"platform":"YouTube","type":"Short","topic":"Specific, click-worthy topic here","hook":"Opening hook for this content","goal":"views|engagement|subscribers"},...]
-
-Platform: "YouTube" or "Instagram"
-Types for YouTube: "Long-form", "Short", "Community Post"
-Types for Instagram: "Reel", "Carousel", "Story", "Live"
-Hook: 10-15 word hook for that piece of content
-Goal: one of "views", "engagement", "subscribers", "brand"
-
-Create a balanced mix: ~40% YouTube, ~60% Instagram. Vary content types and goals strategically.`,
-      "Return ONLY a valid JSON array starting with [ and ending with ]. No markdown. No code fences. No preamble or explanation."
+    const raw = await callClaude(`Generate a strategic 30-day content calendar for a ${profile.niche||"lifestyle"} creator on YouTube and Instagram.\n${themes?`Themes: ${themes}.`:""}\n${goal?`Goal: ${goal}.`:""}\n\nReturn ONLY a JSON array of 30 objects:\n[{"day":1,"platform":"YouTube","type":"Short","topic":"Specific topic","hook":"Opening hook","goal":"views|engagement|subscribers"},...]`,
+      "Return ONLY a valid JSON array. No markdown. No code fences."
     );
-    try {
-      const clean = raw.replace(/```json|```/g,"").trim();
-      const p = JSON.parse(clean);
-      setPosts(Array.isArray(p) ? p : []);
-    } catch { setPosts([]); }
+    try { const clean = raw.replace(/```json|```/g,"").trim(); const p = JSON.parse(clean); setPosts(Array.isArray(p) ? p : []); } catch { setPosts([]); }
     setLoading(false);
   };
 
@@ -1121,73 +941,68 @@ Create a balanced mix: ~40% YouTube, ~60% Instagram. Vary content types and goal
 
   return (
     <div className="fade">
-      <div className="ph"><div className="ph-title"><span>📅</span> 30-Day Content Calendar</div><div className="ph-sub">A full month of strategic content — every post has a purpose</div></div>
+      <div className="ph"><div className="ph-title"><span>📅</span> 30-Day Content Calendar</div><div className="ph-sub">A full month of strategic content</div></div>
       <div className="card">
         <div className="g2">
           <div>
             <label className="lbl">Content Themes</label>
-            <input placeholder="e.g. Morning routines, productivity systems, mindset shifts" value={themes} onChange={e=>setThemes(e.target.value)}/>
+            <input placeholder="e.g. Morning routines, productivity, mindset" value={themes} onChange={e=>setThemes(e.target.value)}/>
             <label className="lbl">Monthly Goal</label>
-            <input placeholder="e.g. Grow 1,000 subscribers, hit 100K views" value={goal} onChange={e=>setGoal(e.target.value)}/>
+            <input placeholder="e.g. Grow 1,000 subscribers" value={goal} onChange={e=>setGoal(e.target.value)}/>
           </div>
           <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
-            <button className="btn btn-ig" disabled={loading} style={{width:"100%",justifyContent:"center"}} onClick={gen}>
-              {loading?<><span className="spin">◌</span> Building Your Calendar...</>:"📅 Generate 30-Day Calendar"}
+            <button className="btn btn-ig" disabled={loading} style={{justifyContent:"center"}} onClick={gen}>
+              {loading?<><span className="spin">◌</span> Building...</>:"📅 Generate 30-Day Calendar"}
             </button>
           </div>
         </div>
       </div>
-
       {posts.length>0 && (
         <div className="card fade">
           <div className="rb" style={{marginBottom:18}}>
-            <div className="ct" style={{marginBottom:0}}><span className="d"></span>Your Strategic 30-Day Plan ({posts.length} posts)</div>
+            <div className="ct" style={{marginBottom:0}}><span className="d"></span>Your 30-Day Plan ({posts.length} posts)</div>
             <div><span className="tag tyt">▶️ YouTube</span><span className="tag tig">📸 Instagram</span></div>
           </div>
-          <div className="cal-grid">{["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(d=><div key={d} className="cal-dn">{d}</div>)}</div>
-          {weeks.map((week,wi)=>(
-            <div key={wi} className="cal-grid">
-              {week.map((p,di)=>(
-                <div key={di} className="cal-cell">
-                  <div className="cal-num">{wi*7+di+1}</div>
-                  {p&&<>
-                    <div className={`chip ${p.platform==="YouTube"?"yt":"ig"}`}>{p.type}</div>
-                    <div style={{fontSize:9,color:"var(--tx)",lineHeight:1.45,marginTop:2,fontWeight:500}}>{p.topic?.slice(0,26)}{p.topic?.length>26?"...":""}</div>
-                    {p.goal && <div style={{marginTop:3,width:8,height:8,borderRadius:"50%",background:goalColor(p.goal)}}/>}
-                  </>}
-                </div>
-              ))}
-            </div>
-          ))}
-          <div style={{display:"flex",gap:10,marginTop:14,flexWrap:"wrap"}}>
-            {[["subscribers","var(--gr)","Subscriber Growth"],["views","var(--yt)","Views Focused"],["engagement","var(--pu)","Engagement Boost"],["brand","var(--yw)","Brand Building"]].map(([g,c,l])=>(
-              <div key={g} style={{display:"flex",alignItems:"center",gap:6,fontSize:11,color:"var(--t2)"}}>
-                <div style={{width:8,height:8,borderRadius:"50%",background:c,flexShrink:0}}/>
-                {l}
+          <div className="cal-scroll">
+            <div className="cal-grid">{["Mon","Tue","Wed","Thu","Fri","Sat","Sun"].map(d=><div key={d} className="cal-dn">{d}</div>)}</div>
+            {weeks.map((week,wi)=>(
+              <div key={wi} className="cal-grid">
+                {week.map((p,di)=>(
+                  <div key={di} className="cal-cell">
+                    <div className="cal-num">{wi*7+di+1}</div>
+                    {p&&<><div className={`chip ${p.platform==="YouTube"?"yt":"ig"}`}>{p.type}</div><div style={{fontSize:9,color:"var(--tx)",lineHeight:1.45,marginTop:2,fontWeight:500}}>{p.topic?.slice(0,26)}{p.topic?.length>26?"...":""}</div>{p.goal && <div style={{marginTop:3,width:8,height:8,borderRadius:"50%",background:goalColor(p.goal)}}/>}</>}
+                  </div>
+                ))}
               </div>
+            ))}
+          </div>
+          <div style={{display:"flex",gap:10,marginTop:14,flexWrap:"wrap"}}>
+            {[["subscribers","var(--gr)","Subscriber Growth"],["views","var(--yt)","Views"],["engagement","var(--pu)","Engagement"],["brand","var(--yw)","Brand"]].map(([g,c,l])=>(
+              <div key={g} style={{display:"flex",alignItems:"center",gap:6,fontSize:11,color:"var(--t2)"}}><div style={{width:8,height:8,borderRadius:"50%",background:c,flexShrink:0}}/>{l}</div>
             ))}
           </div>
         </div>
       )}
-
       {posts.length>0 && (
         <div className="card">
           <div className="ct"><span className="d"></span>This Week's Priority Posts</div>
-          <table className="tbl">
-            <thead><tr><th>Day</th><th>Platform</th><th>Type</th><th>Topic</th><th>Hook</th><th>Goal</th></tr></thead>
-            <tbody>
-              {posts.slice(0,7).map(p=>(
-                <tr key={p.day}>
-                  <td style={{fontFamily:"var(--fh)",fontWeight:700,color:"var(--igs)"}}>Day {p.day}</td>
-                  <td><span className={`tag ${p.platform==="YouTube"?"tyt":"tig"}`}>{p.platform==="YouTube"?"▶️":"📸"} {p.platform}</span></td>
-                  <td style={{color:"var(--t2)"}}>{p.type}</td>
-                  <td style={{fontWeight:500,maxWidth:180}}>{p.topic}</td>
-                  <td style={{fontSize:11.5,color:"var(--t2)",fontStyle:"italic",maxWidth:160}}>{p.hook}</td>
-                  <td><span style={{color:goalColor(p.goal),fontWeight:600,fontSize:11,textTransform:"capitalize"}}>{p.goal}</span></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="tbl-wrap">
+            <table className="tbl">
+              <thead><tr><th>Day</th><th>Platform</th><th>Type</th><th>Topic</th><th>Hook</th><th>Goal</th></tr></thead>
+              <tbody>
+                {posts.slice(0,7).map(p=>(
+                  <tr key={p.day}>
+                    <td style={{fontFamily:"var(--fh)",fontWeight:700,color:"var(--igs)"}}>Day {p.day}</td>
+                    <td><span className={`tag ${p.platform==="YouTube"?"tyt":"tig"}`}>{p.platform==="YouTube"?"▶️":"📸"} {p.platform}</span></td>
+                    <td style={{color:"var(--t2)"}}>{p.type}</td>
+                    <td style={{fontWeight:500,maxWidth:180}}>{p.topic}</td>
+                    <td style={{fontSize:11.5,color:"var(--t2)",fontStyle:"italic",maxWidth:160}}>{p.hook}</td>
+                    <td><span style={{color:goalColor(p.goal),fontWeight:600,fontSize:11,textTransform:"capitalize"}}>{p.goal}</span></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       )}
     </div>
@@ -1219,25 +1034,27 @@ function CollabPage() {
             <div><label className="lbl">Deal Value</label><input placeholder="₹25,000" value={form.val} onChange={e=>setForm(f=>({...f,val:e.target.value}))}/></div>
             <div><label className="lbl">Status</label><select value={form.status} onChange={e=>setForm(f=>({...f,status:e.target.value}))}>{["Outreach","Negotiating","Confirmed","Completed","Declined"].map(s=><option key={s}>{s}</option>)}</select></div>
             <div><label className="lbl">Deadline</label><input placeholder="15 Apr 2026" value={form.dl} onChange={e=>setForm(f=>({...f,dl:e.target.value}))}/></div>
-            <div><label className="lbl">Notes</label><input placeholder="Key details, deliverables..." value={form.notes} onChange={e=>setForm(f=>({...f,notes:e.target.value}))}/></div>
+            <div><label className="lbl">Notes</label><input placeholder="Key details..." value={form.notes} onChange={e=>setForm(f=>({...f,notes:e.target.value}))}/></div>
           </div>
           <button className="btn btn-ig" onClick={add}>Add Deal</button>
         </div>}
-        <table className="tbl">
-          <thead><tr><th>Brand</th><th>Type</th><th>Value</th><th>Status</th><th>Deadline</th><th>Notes</th><th></th></tr></thead>
-          <tbody>
-            {rows.map(r=><tr key={r.id}>
-              <td style={{fontWeight:600}}>{r.brand}</td>
-              <td style={{color:"var(--t2)",fontSize:12}}>{r.type}</td>
-              <td style={{color:"var(--gr)",fontFamily:"var(--fh)",fontWeight:700}}>{r.val}</td>
-              <td><span className={`pill ${SF[r.status]||"pin"}`}>{r.status}</span></td>
-              <td style={{color:"var(--t2)",fontSize:12}}>{r.dl}</td>
-              <td style={{color:"var(--t3)",fontSize:11.5,maxWidth:150}}>{r.notes}</td>
-              <td><button className="btn btn-del btn-sm" onClick={()=>setRows(rs=>rs.filter(x=>x.id!==r.id))}>✕</button></td>
-            </tr>)}
-            {rows.length===0&&<tr><td colSpan={7} className="empty">No deals yet — add your first brand collab!</td></tr>}
-          </tbody>
-        </table>
+        <div className="tbl-wrap">
+          <table className="tbl">
+            <thead><tr><th>Brand</th><th>Type</th><th>Value</th><th>Status</th><th>Deadline</th><th>Notes</th><th></th></tr></thead>
+            <tbody>
+              {rows.map(r=><tr key={r.id}>
+                <td style={{fontWeight:600}}>{r.brand}</td>
+                <td style={{color:"var(--t2)",fontSize:12}}>{r.type}</td>
+                <td style={{color:"var(--gr)",fontFamily:"var(--fh)",fontWeight:700}}>{r.val}</td>
+                <td><span className={`pill ${SF[r.status]||"pin"}`}>{r.status}</span></td>
+                <td style={{color:"var(--t2)",fontSize:12}}>{r.dl}</td>
+                <td style={{color:"var(--t3)",fontSize:11.5,maxWidth:150}}>{r.notes}</td>
+                <td><button className="btn btn-del btn-sm" onClick={()=>setRows(rs=>rs.filter(x=>x.id!==r.id))}>✕</button></td>
+              </tr>)}
+              {rows.length===0&&<tr><td colSpan={7} className="empty">No deals yet — add your first brand collab!</td></tr>}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
@@ -1252,51 +1069,27 @@ function InvoicePage({ profile }) {
   const copy=()=>{navigator.clipboard?.writeText(out);setCopied(true);setTimeout(()=>setCopied(false),2000);};
   return (
     <div className="fade">
-      <div className="ph"><div className="ph-title"><span>🧾</span> Invoice Generator</div><div className="ph-sub">Professional brand deal invoices generated in seconds — ready to send</div></div>
+      <div className="ph"><div className="ph-title"><span>🧾</span> Invoice Generator</div><div className="ph-sub">Professional brand deal invoices in seconds</div></div>
       <div className="g2">
         <div className="card">
           <div className="ct"><span className="d"></span>Invoice Details</div>
           <div className="g2">
-            <div><label className="lbl">Bill To (Brand Name)</label><input placeholder="Company / Brand Name" value={f.to} onChange={e=>sf("to",e.target.value)}/></div>
+            <div><label className="lbl">Bill To</label><input placeholder="Brand Name" value={f.to} onChange={e=>sf("to",e.target.value)}/></div>
             <div><label className="lbl">Invoice Number</label><input placeholder={`INV-${new Date().getFullYear()}-${String(Date.now()).slice(-4)}`} value={f.invoiceNo} onChange={e=>sf("invoiceNo",e.target.value)}/></div>
           </div>
           <label className="lbl">Brand Contact Email</label><input placeholder="billing@brand.com" value={f.email} onChange={e=>sf("email",e.target.value)}/>
           <label className="lbl">Services / Deliverables</label>
-          <textarea placeholder="e.g.&#10;1x Instagram Reel (60s) — ₹15,000&#10;2x Story Slides — ₹5,000&#10;6-month usage rights — ₹5,000" value={f.services} onChange={e=>sf("services",e.target.value)}/>
+          <textarea placeholder={"e.g.\n1x Instagram Reel — ₹15,000\n2x Story Slides — ₹5,000"} value={f.services} onChange={e=>sf("services",e.target.value)}/>
           <div className="g2">
-            <div><label className="lbl">Total Amount (before GST)</label><input placeholder="₹25,000" value={f.amount} onChange={e=>sf("amount",e.target.value)}/></div>
+            <div><label className="lbl">Total Amount</label><input placeholder="₹25,000" value={f.amount} onChange={e=>sf("amount",e.target.value)}/></div>
             <div><label className="lbl">GST %</label><select value={f.gst} onChange={e=>sf("gst",e.target.value)}><option value="">No GST</option><option value="18">18% GST</option><option value="12">12% GST</option><option value="5">5% GST</option></select></div>
           </div>
           <div className="g2">
-            <div><label className="lbl">Payment Due Date</label><input placeholder="15 May 2026" value={f.due} onChange={e=>sf("due",e.target.value)}/></div>
-            <div><label className="lbl">Payment Method</label><input placeholder="Bank transfer / UPI / Razorpay" value={f.notes} onChange={e=>sf("notes",e.target.value)}/></div>
+            <div><label className="lbl">Due Date</label><input placeholder="15 May 2026" value={f.due} onChange={e=>sf("due",e.target.value)}/></div>
+            <div><label className="lbl">Payment Method</label><input placeholder="Bank / UPI" value={f.notes} onChange={e=>sf("notes",e.target.value)}/></div>
           </div>
           <button className="btn btn-ig" disabled={loading||!f.to||!f.services||!f.amount}
-            onClick={()=>run(`Generate a professional, legally-formatted Indian freelancer invoice in plain text.
-
-INVOICE FROM:
-Name: ${profile.handle||"Content Creator"}
-Category: ${profile.niche||"Content"} Creator
-Invoice Date: ${new Date().toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"})}
-Invoice Number: ${f.invoiceNo||`INV-${new Date().getFullYear()}-${String(Date.now()).slice(-4)}`}
-
-BILL TO:
-Company: ${f.to}
-Email: ${f.email||"[contact email]"}
-
-SERVICES PROVIDED:
-${f.services}
-
-FINANCIALS:
-Subtotal: ${f.amount}
-GST (${f.gst||"0"}%): ${f.gst?`₹${(Number(f.amount.replace(/[₹,]/g,""))*Number(f.gst)/100).toFixed(2)}`:"Nil"}
-TOTAL DUE: ${f.amount}${f.gst?` + ₹${(Number(f.amount.replace(/[₹,]/g,""))*Number(f.gst)/100).toFixed(2)} GST`:""}
-
-PAYMENT:
-Due Date: ${f.due||"30 days from invoice date"}
-Method: ${f.notes||"Bank transfer"}
-
-Format this as a clean, professional text invoice. Include a brief professional closing note.`)}>
+            onClick={()=>run(`Generate a professional Indian freelancer invoice.\n\nFROM: ${profile.handle||"Creator"} (${profile.niche} Creator)\nDate: ${new Date().toLocaleDateString("en-IN",{day:"numeric",month:"long",year:"numeric"})}\nInvoice #: ${f.invoiceNo||`INV-${new Date().getFullYear()}-${String(Date.now()).slice(-4)}`}\n\nBILL TO: ${f.to} (${f.email||"[email]"})\n\nSERVICES:\n${f.services}\n\nSubtotal: ${f.amount}\nGST (${f.gst||"0"}%): ${f.gst?`₹${(Number(f.amount.replace(/[₹,]/g,""))*Number(f.gst)/100).toFixed(2)}`:"Nil"}\nDue: ${f.due||"30 days"}\nMethod: ${f.notes||"Bank transfer"}\n\nFormat as clean professional text invoice.`)}>
             {loading?<><span className="spin">◌</span> Generating...</>:"🧾 Generate Invoice"}
           </button>
         </div>
@@ -1305,9 +1098,7 @@ Format this as a clean, professional text invoice. Include a brief professional 
           <div className={`out${!out?" empty":""}`} style={{minHeight:360,fontFamily:"monospace",fontSize:12,lineHeight:2}}>
             {loading?<span className="pulse">Drafting your invoice...</span>:out||"Your professional invoice will appear here..."}
           </div>
-          {out&&<div className="mt8" style={{display:"flex",gap:8}}>
-            <button className="btn btn-gh btn-sm" onClick={copy}>{copied?"✅ Copied!":"📋 Copy Invoice"}</button>
-          </div>}
+          {out&&<div className="mt8" style={{display:"flex",gap:8}}><button className="btn btn-gh btn-sm" onClick={copy}>{copied?"✅ Copied!":"📋 Copy Invoice"}</button></div>}
         </div>
       </div>
     </div>
@@ -1334,7 +1125,7 @@ function EarnPage() {
   const add=()=>{if(!form.src||!form.amt)return;setRows(r=>[...r,{...form,id:Date.now(),amt:Number(form.amt)}]);setForm({src:"",type:"Sponsorship",amt:"",mo:"",st:"Paid"});setOpen(false);};
   return (
     <div className="fade">
-      <div className="ph"><div className="ph-title"><span>💸</span> Earnings Tracker</div><div className="ph-sub">Every rupee you earn as a creator — tracked, categorised, and visualised</div></div>
+      <div className="ph"><div className="ph-title"><span>💸</span> Earnings Tracker</div><div className="ph-sub">Every rupee tracked, categorised, and visualised</div></div>
       <div className="g4" style={{marginBottom:17}}>
         <div className="stat sgr"><div className="s-lbl">Total Earned</div><div className="s-val">{fmt2(total)}</div><div className="s-sub">All time</div></div>
         <div className="stat sig"><div className="s-lbl">Received</div><div className="s-val s-good">{fmt2(paid)}</div><div className="s-sub">Paid & cleared</div></div>
@@ -1346,25 +1137,27 @@ function EarnPage() {
           <div className="rb" style={{marginBottom:15}}><div className="ct" style={{marginBottom:0}}><span className="d"></span>Income Log</div><button className="btn btn-gh btn-sm" onClick={()=>setOpen(o=>!o)}>+ Add Entry</button></div>
           {open&&<div className="fade" style={{background:"var(--s2)",padding:16,borderRadius:12,marginBottom:16}}>
             <div className="g2">
-              <div><label className="lbl">Source</label><input placeholder="Brand / Platform name" value={form.src} onChange={e=>setForm(f=>({...f,src:e.target.value}))}/></div>
+              <div><label className="lbl">Source</label><input placeholder="Brand / Platform" value={form.src} onChange={e=>setForm(f=>({...f,src:e.target.value}))}/></div>
               <div><label className="lbl">Type</label><select value={form.type} onChange={e=>setForm(f=>({...f,type:e.target.value}))}>{["Sponsorship","AdSense","Affiliate","UGC","Merchandise","Course/Digital","Other"].map(t=><option key={t}>{t}</option>)}</select></div>
               <div><label className="lbl">Amount (₹)</label><input type="number" placeholder="15000" value={form.amt} onChange={e=>setForm(f=>({...f,amt:e.target.value}))}/></div>
               <div><label className="lbl">Month</label><input placeholder="Apr 2026" value={form.mo} onChange={e=>setForm(f=>({...f,mo:e.target.value}))}/></div>
               <div><label className="lbl">Status</label><select value={form.st} onChange={e=>setForm(f=>({...f,st:e.target.value}))}><option>Paid</option><option>Pending</option><option>Confirmed</option><option>Overdue</option></select></div>
-              <div style={{display:"flex",alignItems:"flex-end",paddingBottom:15}}><button className="btn btn-ig" style={{width:"100%",justifyContent:"center"}} onClick={add}>Add Entry</button></div>
+              <div style={{display:"flex",alignItems:"flex-end",paddingBottom:15}}><button className="btn btn-ig" style={{justifyContent:"center"}} onClick={add}>Add Entry</button></div>
             </div>
           </div>}
-          <table className="tbl">
-            <thead><tr><th>Source</th><th>Type</th><th>Amount</th><th>Month</th><th>Status</th><th></th></tr></thead>
-            <tbody>{rows.map(r=><tr key={r.id}>
-              <td style={{fontWeight:600,maxWidth:180,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.src}</td>
-              <td><span className="tag tpu">{r.type}</span></td>
-              <td style={{fontFamily:"var(--fh)",fontWeight:700,color:"var(--gr)"}}>{fmt2(r.amt)}</td>
-              <td style={{color:"var(--t2)",fontSize:12}}>{r.mo}</td>
-              <td><span className={`pill ${r.st==="Paid"?"pok":r.st==="Pending"?"pwn":r.st==="Confirmed"?"pin":"pdn"}`}>{r.st}</span></td>
-              <td><button className="btn btn-del btn-sm" onClick={()=>setRows(rs=>rs.filter(x=>x.id!==r.id))}>✕</button></td>
-            </tr>)}</tbody>
-          </table>
+          <div className="tbl-wrap">
+            <table className="tbl">
+              <thead><tr><th>Source</th><th>Type</th><th>Amount</th><th>Month</th><th>Status</th><th></th></tr></thead>
+              <tbody>{rows.map(r=><tr key={r.id}>
+                <td style={{fontWeight:600,maxWidth:180,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{r.src}</td>
+                <td><span className="tag tpu">{r.type}</span></td>
+                <td style={{fontFamily:"var(--fh)",fontWeight:700,color:"var(--gr)"}}>{fmt2(r.amt)}</td>
+                <td style={{color:"var(--t2)",fontSize:12}}>{r.mo}</td>
+                <td><span className={`pill ${r.st==="Paid"?"pok":r.st==="Pending"?"pwn":r.st==="Confirmed"?"pin":"pdn"}`}>{r.st}</span></td>
+                <td><button className="btn btn-del btn-sm" onClick={()=>setRows(rs=>rs.filter(x=>x.id!==r.id))}>✕</button></td>
+              </tr>)}</tbody>
+            </table>
+          </div>
         </div>
         <div style={{display:"flex",flexDirection:"column",gap:17}}>
           <div className="card">
@@ -1400,15 +1193,21 @@ function EarnPage() {
 function AppShell({ user, ytUser, ytData, ytLoading, ytError, signIn, signOut }) {
   const [page, setPage] = useState("dash");
   const [profile, setProfile] = useState({ niche:"", handle: ytUser?.handle||"" });
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const navigate = (id) => {
+    setPage(id);
+    setSidebarOpen(false);
+  };
 
   const PAGES = {
-    dash: <Dashboard user={user} profile={profile} setProfile={setProfile} ytUser={ytUser} nav={setPage}/>,
+    dash: <Dashboard user={user} profile={profile} setProfile={setProfile} ytUser={ytUser} nav={navigate}/>,
     analytics: <Analytics ytData={ytData} ytUser={ytUser} ytLoading={ytLoading} ytError={ytError} signIn={signIn} signOut={signOut}/>,
     growth: <GrowthPage profile={profile} ytUser={ytUser}/>,
     script: <ScriptPage profile={profile}/>,
     caption: <CaptionPage profile={profile}/>,
     hook: <HookPage profile={profile}/>,
-    repurpose: <ReposePage profile={profile}/>,
+    repurpose: <RepurposePage profile={profile}/>,
     viral: <ViralScorePage profile={profile}/>,
     calendar: <CalendarPage profile={profile}/>,
     collab: <CollabPage/>,
@@ -1416,15 +1215,31 @@ function AppShell({ user, ytUser, ytData, ytLoading, ytError, signIn, signOut })
     earn: <EarnPage/>,
   };
 
+  // Get current page label for mobile topbar
+  const currentLabel = NAV.flatMap(g=>g.items).find(i=>i.id===page);
+
   return (
     <div className="app">
-      <div className="sidebar">
+      {/* Hamburger button */}
+      <button className={`hamburger${sidebarOpen?" active":""}`} onClick={()=>setSidebarOpen(o=>!o)} aria-label="Menu">
+        <span/><span/><span/>
+      </button>
+
+      {/* Mobile top bar */}
+      <div className="mobile-topbar">
+        <div className="logo-gem">⚡</div>
+        <span>{currentLabel?.l || "CreatorOS"}</span>
+      </div>
+
+      {/* Sidebar overlay (mobile) */}
+      <div className={`sidebar-overlay${sidebarOpen?" open":""}`} onClick={()=>setSidebarOpen(false)}/>
+
+      {/* Sidebar */}
+      <div className={`sidebar${sidebarOpen?" open":""}`}>
         <div className="logo-area">
-          <div className="logo-row"><div className="logo-gem">⚡</div><div><div className="logo-text">CreatorOS</div><div className="logo-ver">v4.0 · AI Suite</div></div></div>
+          <div className="logo-row"><div className="logo-gem">⚡</div><div><div className="logo-text">CreatorOS</div><div className="logo-ver">v4.2 · AI Suite</div></div></div>
           <div className="user-pill">
-            <div className="user-av">
-              {ytUser?.thumbnail ? <img src={ytUser.thumbnail} alt={ytUser.name}/> : (user?.av||"C")}
-            </div>
+            <div className="user-av">{ytUser?.thumbnail ? <img src={ytUser.thumbnail} alt={ytUser.name}/> : (user?.av||"C")}</div>
             <div className="user-name">{ytUser?.name||user?.name||"Creator"}</div>
             <span className="user-badge">PRO</span>
           </div>
@@ -1433,7 +1248,7 @@ function AppShell({ user, ytUser, ytData, ytLoading, ytError, signIn, signOut })
           {NAV.map(g=>(
             <div key={g.g}>
               <div className="nav-grp">{g.g}</div>
-              {g.items.map(item=><button key={item.id} className={`nav-btn${page===item.id?" on":""}`} onClick={()=>setPage(item.id)}><span className="ni">{item.i}</span><span>{item.l}</span>{item.id==="analytics"&&ytUser&&<span style={{marginLeft:"auto",width:7,height:7,borderRadius:"50%",background:"var(--yt)",display:"inline-block",flexShrink:0}}/>}</button>)}
+              {g.items.map(item=><button key={item.id} className={`nav-btn${page===item.id?" on":""}`} onClick={()=>navigate(item.id)}><span className="ni">{item.i}</span><span>{item.l}</span>{item.id==="analytics"&&ytUser&&<span style={{marginLeft:"auto",width:7,height:7,borderRadius:"50%",background:"var(--yt)",display:"inline-block",flexShrink:0}}/>}</button>)}
             </div>
           ))}
         </div>
@@ -1447,16 +1262,12 @@ function AppShell({ user, ytUser, ytData, ytLoading, ytError, signIn, signOut })
   );
 }
 
-/* Alias for repurpose — fixing the name */
-const ReposePage = RepurposePage;
-
 /* ─── ROOT ───────────────────────────────────────────────────── */
 export default function App() {
   const [stage, setStage] = useState("auth");
   const [user, setUser] = useState(null);
   const { ytUser, ytData, ytLoading, ytError, signIn, signOut } = useYouTube();
 
-  // Load Google Identity Services SDK
   useEffect(() => {
     if (GOOGLE_CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com") return;
     const script = document.createElement("script");
@@ -1468,7 +1279,7 @@ export default function App() {
 
   const handleYouTubeSignIn = async () => {
     if (GOOGLE_CLIENT_ID === "YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com") {
-      alert("⚙️ Setup Required\n\nReplace YOUR_GOOGLE_CLIENT_ID at the top of App.jsx with your actual Google OAuth Client ID from Google Cloud Console.\n\nSee the setup instructions in the file header.");
+      alert("⚙️ Setup Required\n\nReplace YOUR_GOOGLE_CLIENT_ID at the top of App.jsx with your actual Google OAuth Client ID.");
       return;
     }
     await signIn();
@@ -1478,23 +1289,8 @@ export default function App() {
   return (
     <>
       <style>{S}</style>
-      {stage === "auth" && (
-        <AuthScreen
-          onYouTube={handleYouTubeSignIn}
-          onSkip={() => { setUser({ name:"Creator", av:"⚡" }); setStage("app"); }}
-        />
-      )}
-      {stage === "app" && (
-        <AppShell
-          user={user}
-          ytUser={ytUser}
-          ytData={ytData}
-          ytLoading={ytLoading}
-          ytError={ytError}
-          signIn={signIn}
-          signOut={signOut}
-        />
-      )}
+      {stage === "auth" && <AuthScreen onYouTube={handleYouTubeSignIn} onSkip={() => { setUser({ name:"Creator", av:"⚡" }); setStage("app"); }}/>}
+      {stage === "app" && <AppShell user={user} ytUser={ytUser} ytData={ytData} ytLoading={ytLoading} ytError={ytError} signIn={signIn} signOut={signOut}/>}
     </>
   );
 }
