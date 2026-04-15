@@ -1739,9 +1739,21 @@ window.addEventListener('scroll', () => {
 </script>
 
 <script>
-// ── ACCESS GATE ──
-const ACCESS_CODE = "CREATOR@DEV2026";
+const HASHED_CODES = {
+  "f11f9abff9cee2324dbc3cc68e831635f131b2a530118fa3734a240b2af8bef2": 999,   
+  "dbdf72b701d49753b141dd5d6ce4e3262e7aac969d2fa477c18ee3fa8f404f9f": 3,       
+};
 const APP_URL = "https://creator-os-gray.vercel.app";
+
+async function hashCode(str) {
+  const buf = await crypto.subtle.digest(
+    'SHA-256',
+    new TextEncoder().encode(str.toUpperCase())
+  );
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2,'0'))
+    .join('');
+}
 
 function launchApp(e) {
   e.preventDefault();
@@ -1757,8 +1769,8 @@ function launchApp(e) {
   overlay.innerHTML = `
     <div style="
       background:#0f1220;border:1px solid rgba(255,255,255,0.12);
-      border-radius:24px;padding:40px 32px;width:100%;max-width:420px;text-align:center;
-      box-shadow:0 40px 100px rgba(0,0,0,0.65);
+      border-radius:24px;padding:40px 32px;width:100%;max-width:420px;
+      text-align:center;box-shadow:0 40px 100px rgba(0,0,0,0.65);
     ">
       <div style="
         width:54px;height:54px;border-radius:16px;margin:0 auto 20px;
@@ -1766,7 +1778,8 @@ function launchApp(e) {
         display:flex;align-items:center;justify-content:center;
         font-size:24px;box-shadow:0 8px 28px rgba(225,48,108,0.45);
       ">⚡</div>
-      <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#f0f0fa;margin-bottom:8px;">
+      <div style="font-family:'Syne',sans-serif;font-size:22px;
+        font-weight:800;color:#f0f0fa;margin-bottom:8px;">
         Enter Access Code
       </div>
       <div style="font-size:13.5px;color:#8888aa;margin-bottom:28px;line-height:1.6;">
@@ -1778,9 +1791,11 @@ function launchApp(e) {
         type="password"
         placeholder="Enter your access code"
         style="
-          width:100%;background:#141720;border:1px solid rgba(255,255,255,0.1);
-          border-radius:11px;color:#f0f0fa;font-size:16px;padding:13px 16px;
-          outline:none;margin-bottom:14px;text-align:center;letter-spacing:3px;
+          width:100%;background:#141720;
+          border:1px solid rgba(255,255,255,0.1);
+          border-radius:11px;color:#f0f0fa;font-size:16px;
+          padding:13px 16px;outline:none;margin-bottom:14px;
+          text-align:center;letter-spacing:3px;
           font-family:'DM Sans',sans-serif;-webkit-appearance:none;
         "
         onkeydown="if(event.key==='Enter') checkCode()"
@@ -1797,7 +1812,8 @@ function launchApp(e) {
       ">
         Unlock CreatorOS ⚡
       </button>
-      <div style="font-size:12px;color:#44445a;cursor:pointer;padding:8px;" onclick="closeGate()">
+      <div style="font-size:12px;color:#44445a;cursor:pointer;padding:8px;"
+        onclick="closeGate()">
         Cancel
       </div>
     </div>
@@ -1806,11 +1822,22 @@ function launchApp(e) {
   setTimeout(() => document.getElementById('access-input')?.focus(), 100);
 }
 
-function checkCode() {
+async function checkCode() {
   const input = document.getElementById('access-input');
   const error = document.getElementById('access-error');
-  const val = input?.value?.trim().toUpperCase();
-  if (val === ACCESS_CODE.toUpperCase()) {
+  const val = input?.value?.trim();
+  if (!val) return;
+
+  // Hash what the user typed
+  const hashed = await hashCode(val);
+  const days = HASHED_CODES[hashed];
+
+  if (days !== undefined) {
+    // Valid — store expiry in localStorage
+    const expiry = Date.now() + days * 24 * 60 * 60 * 1000;
+    localStorage.setItem('cos_access', JSON.stringify({
+      expiry: expiry
+    }));
     document.getElementById('access-gate')?.remove();
     window.open(APP_URL, '_blank');
   } else {
